@@ -2,6 +2,7 @@
 
 #include "Elyrapch.hpp"
 #include "Events/Event.hpp"
+#include "Core/TimeStep.hpp"
 
 namespace Elyra {
 
@@ -12,7 +13,7 @@ namespace Elyra {
 
         virtual void OnAttach() {}
         virtual void OnDetach() {}
-        virtual void OnUpdate() {}
+        virtual void OnUpdate(TimeStep ts) {} 
         virtual void OnEvent(Event& event) {}
 
         inline const std::string& GetName() const { return m_DebugName; }

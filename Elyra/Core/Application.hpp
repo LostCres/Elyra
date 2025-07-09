@@ -1,9 +1,11 @@
 #pragma once
+
+#include <glad/glad.h>
+
 #include "Elyra.hpp"
 #include "Window.hpp"
 #include "Layer/LayerStack.hpp"
 
-#include <glad/glad.h>
 namespace Elyra {
 
     class ELYRA_API Application {

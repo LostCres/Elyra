@@ -1,5 +1,6 @@
 #include "Elyrapch.hpp"
 #include "Application.hpp"
+#include "TimeStep.hpp"
 #include "Log.hpp"
 
 namespace Elyra {
@@ -18,9 +19,21 @@ namespace Elyra {
     void Application::Run() {
         EL_CORE_INFO("Engine starting...");
 
+        TimeStep lastTime = TimeStep::Now();
+
         while (!m_Window->ShouldClose() && m_Running) {
             glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
+
+            TimeStep currentTime = TimeStep::Now();
+            TimeStep deltaTime = currentTime - lastTime;
+            lastTime = currentTime;
+
+            EL_CORE_INFO("Delta Time: {0} ms", deltaTime.GetMilliseconds());
+
+            for (auto& layer : m_LayerStack) {
+                layer->OnUpdate(deltaTime);
+            }
 
             m_Window->OnUpdate();
         }

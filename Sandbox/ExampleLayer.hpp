@@ -6,8 +6,8 @@ class ExampleLayer : public Elyra::Layer {
 public:
     ExampleLayer() : Layer("Example") {}
 
-    void OnUpdate() override {
-        EL_TRACE("ExampleLayer::Update");
+    void OnUpdate(Elyra::TimeStep ts) override {
+        EL_INFO("Delta time: {0} seconds", ts.GetSeconds());
     }
 
     void OnEvent(Elyra::Event& event) override {
