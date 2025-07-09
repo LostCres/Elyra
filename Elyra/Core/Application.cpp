@@ -7,11 +7,10 @@ Elyra::Application* Elyra::Application::s_Instance = nullptr;
 
 namespace Elyra {
 
-    Application::Application() {
-        s_Instance = this;
+    Application::Application(const WindowProps& props) {
         Log::Init();
-
-        m_Window = Window::Create({ "Elyra Engine", 1280, 720 });
+        s_Instance = this;
+        m_Window = Window::Create(props);
         m_Window->SetEventCallback([this](Event& e) {
             OnEvent(e);
         });

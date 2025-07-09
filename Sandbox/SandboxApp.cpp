@@ -1,18 +1,17 @@
 #include <Elyra.hpp>
-#include "ExampleLayer.hpp"
+#include "SandboxLayer.hpp"
 
-class SandboxApp : public Elyra::Application {
+class Sandbox : public Elyra::Application {
 public:
-    SandboxApp() {
-        EL_INFO("SandboxApp Created!");
-        PushLayer(new ExampleLayer());
-
+    Sandbox(const Elyra::WindowProps& Props):Application(Props) {
+        PushLayer(new SandboxLayer());
     }
 
-    ~SandboxApp() override = default;
+    ~Sandbox() override = default;
 };
 
-// Entry point for Elyra
 Elyra::Application* Elyra::CreateApplication() {
-    return new SandboxApp();
+    WindowProps Props;
+    Props.Title = "Sandbox";
+    return new Sandbox(Props);
 }

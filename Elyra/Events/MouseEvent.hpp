@@ -5,7 +5,7 @@
 
 namespace Elyra {
 
-    class MouseMovedEvent : public Event {
+    class ELYRA_API MouseMovedEvent : public Event {
     public:
         MouseMovedEvent(float x, float y)
             : m_MouseX(x), m_MouseY(y) {}
@@ -26,7 +26,7 @@ namespace Elyra {
         float m_MouseX, m_MouseY;
     };
 
-    class MouseScrolledEvent : public Event {
+    class ELYRA_API MouseScrolledEvent : public Event {
     public:
         MouseScrolledEvent(float xOffset, float yOffset)
             : m_XOffset(xOffset), m_YOffset(yOffset) {}
@@ -47,7 +47,7 @@ namespace Elyra {
         float m_XOffset, m_YOffset;
     };
 
-    class MouseButtonEvent : public Event {
+    class ELYRA_API MouseButtonEvent : public Event {
     public:
         MouseButton GetMouseButton() const { return m_Button; }
 
@@ -60,7 +60,7 @@ namespace Elyra {
         MouseButton m_Button;
     };
 
-    class MouseButtonPressedEvent : public MouseButtonEvent {
+    class ELYRA_API MouseButtonPressedEvent : public MouseButtonEvent {
     public:
         MouseButtonPressedEvent(MouseButton button)
             : MouseButtonEvent(button) {}
@@ -72,7 +72,7 @@ namespace Elyra {
         EVENT_CLASS_TYPE(MouseButtonPressed)
     };
 
-    class MouseButtonReleasedEvent : public MouseButtonEvent {
+    class ELYRA_API MouseButtonReleasedEvent : public MouseButtonEvent {
     public:
         MouseButtonReleasedEvent(MouseButton button)
             : MouseButtonEvent(button) {}

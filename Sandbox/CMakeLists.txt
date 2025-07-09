@@ -1,6 +1,7 @@
-# ---- Sandbox Application ----
+# Find all Elyra .cpp source files needed for linking
 add_executable(Sandbox
     SandboxApp.cpp
+    SandboxLayer.cpp
     ${CMAKE_SOURCE_DIR}/Elyra/EntryPoint.cpp
 )
 
@@ -9,7 +10,9 @@ target_link_libraries(Sandbox PRIVATE Elyra)
 
 # Include Elyra headers
 target_include_directories(Sandbox PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR} 
     ${CMAKE_SOURCE_DIR}/Elyra
+    ${CMAKE_SOURCE_DIR}/vendor/glm/include    
 )
 
 # Platform

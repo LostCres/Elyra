@@ -3,7 +3,7 @@
 
 namespace Elyra {
 
-    class EventDispatcher {
+    class ELYRA_API EventDispatcher {
     public:
         EventDispatcher(Event& event)
             : m_Event(event) {}

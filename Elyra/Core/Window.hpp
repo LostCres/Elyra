@@ -1,6 +1,8 @@
 #pragma once
+#include "ElyraAPI.hpp"
 #include "Events/Event.hpp"
 #include "Elyrapch.hpp"
+#include "Core/Core.hpp"
 
 struct GLFWwindow;
 
@@ -16,7 +18,7 @@ namespace Elyra {
             : Title(title), Width(width), Height(height) {}
     };
 
-    class Window {
+    class ELYRA_API Window {
     public:
         using EventCallbackFn = std::function<void(Event&)>;
 
@@ -32,7 +34,7 @@ namespace Elyra {
 
         virtual bool ShouldClose() const = 0;
 
-        static std::unique_ptr<Window> Create(const WindowProps& props = WindowProps());
+        static Scope<Window> Create(const WindowProps& props = WindowProps());
 
     };
 

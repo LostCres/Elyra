@@ -4,7 +4,7 @@
 
 namespace Elyra {
 
-    class WindowResizeEvent : public Event {
+    class ELYRA_API WindowResizeEvent : public Event {
     public:
         WindowResizeEvent(unsigned int width, unsigned int height)
             : m_Width(width), m_Height(height) {}
@@ -25,7 +25,7 @@ namespace Elyra {
         unsigned int m_Width, m_Height;
     };
 
-    class WindowCloseEvent : public Event {
+    class ELYRA_API WindowCloseEvent : public Event {
     public:
         WindowCloseEvent() = default;
 

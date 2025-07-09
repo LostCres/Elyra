@@ -10,6 +10,8 @@ file(GLOB_RECURSE ELYRA_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/Events/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Platform/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/OpenGL/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Camera/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Layer/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Input/*.cpp
 )
@@ -21,9 +23,11 @@ target_precompile_headers(Elyra PRIVATE Elyrapch.hpp)
 
 # Include directories for engine
 target_include_directories(Elyra PUBLIC
-    ${CMAKE_CURRENT_SOURCE_DIR}                         # To find Elyrapch.hpp, etc.
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/Elyra                         # To find Elyrapch.hpp, etc.
     ${CMAKE_SOURCE_DIR}/vendor/glfw/include
     ${CMAKE_SOURCE_DIR}/vendor/spdlog/include
+    ${CMAKE_SOURCE_DIR}/vendor/glm/include
 )
 
 # Link directories for glfw

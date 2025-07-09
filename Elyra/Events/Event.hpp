@@ -1,5 +1,6 @@
 #pragma once
 #include "Elyrapch.hpp"
+#include "ElyraAPI.hpp"
 
 namespace Elyra {
 
@@ -35,7 +36,7 @@ namespace Elyra {
     #define EVENT_CLASS_CATEGORY(category) \
         virtual int GetCategoryFlags() const override { return category; }
 
-    class Event {
+    class ELYRA_API Event {
     public:
         virtual EventType GetEventType() const = 0;
         virtual const char* GetName() const = 0;

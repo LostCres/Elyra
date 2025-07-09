@@ -1,8 +1,9 @@
 #pragma once
+#include "ElyraAPI.hpp"
 #include <GLFW/glfw3.h>
 namespace Elyra {
 
-    class TimeStep {
+    class ELYRA_API TimeStep {
     public:
         TimeStep(float time = 0.0f)
             : m_Time(time) {}

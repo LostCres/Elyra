@@ -1,12 +1,13 @@
 #pragma once
 
 #include "Elyrapch.hpp"
+#include "ElyraAPI.hpp"
 #include "Events/Event.hpp"
 #include "Core/TimeStep.hpp"
 
 namespace Elyra {
 
-    class Layer {
+    class ELYRA_API Layer {
     public:
         Layer(const std::string& name = "Layer") : m_DebugName(name) {}
         virtual ~Layer() = default;

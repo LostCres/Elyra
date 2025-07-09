@@ -1,17 +1,18 @@
 #pragma once
 
-#ifdef _WIN32
-    #ifdef ELYRA_BUILD_DLL
-        #define ELYRA_API __declspec(dllexport)
-    #else
-        #define ELYRA_API __declspec(dllimport)
-    #endif
-#else
-    #define ELYRA_API
-#endif
-
 #include "Core/Log.hpp"
+#include "Core/Core.hpp"
 #include "Core/Application.hpp"
+#include "Core/TimeStep.hpp"
+
 #include "Events/KeyEvent.hpp"
 #include "Events/MouseEvent.hpp"
 
+#include "Renderer/Buffer.hpp"
+#include "Renderer/VertexArray.hpp"
+#include "Renderer/Renderer.hpp"
+#include "Renderer/RendererAPI.hpp"
+#include "Renderer/ShaderLibrary.hpp"
+#include "Renderer/RenderCommand.hpp"
+#include "Renderer/Camera/OrthographicCamera.hpp"
+#include "Renderer/Shader.hpp"
