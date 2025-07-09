@@ -9,6 +9,6 @@ public:
     void OnUIRender() override;
 
 private:
-    Elyra::Scene m_Scene;
+    std::shared_ptr<Elyra::Scene> m_Scene;
     Elyra::Entity m_TestEntity;
 };

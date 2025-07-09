@@ -9,43 +9,23 @@ ECSrender::ECSrender()
 
 void ECSrender::OnAttach() {
 
-    static std::vector<float> cubeVertices = {
-        // Position          // Normal        // TexCoord
-        -0.5f, -0.5f, -0.5f,  0.f, 0.f, -1.f,  0.f, 0.f,
-        0.5f, -0.5f, -0.5f,  0.f, 0.f, -1.f,  1.f, 0.f,
-        0.5f,  0.5f, -0.5f,  0.f, 0.f, -1.f,  1.f, 1.f,
-        -0.5f,  0.5f, -0.5f,  0.f, 0.f, -1.f,  0.f, 1.f,
-
-        -0.5f, -0.5f,  0.5f,  0.f, 0.f, 1.f,   0.f, 0.f,
-        0.5f, -0.5f,  0.5f,  0.f, 0.f, 1.f,   1.f, 0.f,
-        0.5f,  0.5f,  0.5f,  0.f, 0.f, 1.f,   1.f, 1.f,
-        -0.5f,  0.5f,  0.5f,  0.f, 0.f, 1.f,   0.f, 1.f,
-    };
-
-    static std::vector<uint32_t> cubeIndices = {
-        // Back face
-        0, 1, 2, 2, 3, 0,
-        // Front face
-        4, 5, 6, 6, 7, 4,
-        // Left face
-        4, 0, 3, 3, 7, 4,
-        // Right face
-        1, 5, 6, 6, 2, 1,
-        // Bottom face
-        4, 5, 1, 1, 0, 4,
-        // Top face
-        3, 2, 6, 6, 7, 3
-    };
-    auto cubeMesh = Elyra::Mesh::Create(cubeVertices, cubeIndices);   
+    auto cubeMesh = Elyra::Primitives::Cube();
+    auto sphereMesh = Elyra::Primitives::Sphere();  
     auto cubeShader = Elyra::Shader::Create("Assets/shaders/Cube.vert","Assets/shaders/Cube.frag");
 
     // Simulate ECS: create a cube entity with components
     m_Scene = std::make_shared<Elyra::Scene>();
-    auto cube = m_Scene->CreateEntity("Cube");
+    Elyra::SceneManager::SetActiveScene(m_Scene);
 
+    auto cube = m_Scene->CreateEntity("Cube");
     cube.GetComponent<Elyra::MeshComponent>().MeshData      = cubeMesh;
     cube.GetComponent<Elyra::MaterialComponent>().ShaderData  = cubeShader;
     cube.GetComponent<Elyra::TransformComponent>().Position = { 0.0f, 0.0f, 0.0f };
+
+    auto sphere = m_Scene->CreateEntity("Sphere");
+    sphere.GetComponent<Elyra::MeshComponent>().MeshData = sphereMesh;
+    sphere.GetComponent<Elyra::MaterialComponent>().ShaderData = cubeShader;
+    sphere.GetComponent<Elyra::TransformComponent>().Position = {0.0f, 2.0f,0.0f};
 }
 
 void ECSrender::OnDetach() {
@@ -87,7 +67,15 @@ void ECSrender::OnUpdate(Elyra::TimeStep ts) {
 
 void ECSrender::OnEvent(Elyra::Event& event) {
     m_CameraController.OnEvent(event);  // <--- forward events
-    
+
+    if (event.GetEventType() == Elyra::EventType::WindowResize)
+    {
+        Elyra::WindowResizeEvent& Size = static_cast<Elyra::WindowResizeEvent&>(event);
+        auto width = static_cast<uint32_t>(Size.GetWidth());
+        auto height = static_cast<uint32_t>(Size.GetHeight());
+        Elyra::Renderer::OnWindowResize(width,height);
+        m_CameraController.OnResize((float)Size.GetWidth(),(float)Size.GetHeight());
+    }
 }
 
 void ECSrender::OnUIRender()

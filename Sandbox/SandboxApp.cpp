@@ -9,8 +9,9 @@ public:
 
         EL_INFO("Sandbox Starting.");
         //PushLayer(new SandboxLayer());
-        PushLayer(new ECSDebugLayer());
         PushLayer(new ECSrender());
+        PushLayer(new ECSDebugLayer());
+        
 
     }
 

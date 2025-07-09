@@ -11,11 +11,13 @@
 
 #include "UI/UI.hpp"
 
+#include "ECS/SceneManager.hpp"
 #include "ECS/Scene.hpp"
 #include "ECS/Entity.hpp"
 #include "ECS/Component.hpp"
 
 #include "Renderer/Mesh/Mesh.hpp"
+#include "Renderer/Mesh/Primitives.hpp"
 
 #include "Renderer/Buffer.hpp"
 #include "Renderer/VertexArray.hpp"

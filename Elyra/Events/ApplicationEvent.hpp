@@ -1,6 +1,7 @@
 #pragma once
 #include "Elyrapch.hpp"
 #include "Events/Event.hpp"
+#include "Core/Log.hpp"
 
 namespace Elyra {
 

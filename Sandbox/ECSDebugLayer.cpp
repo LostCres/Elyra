@@ -4,13 +4,8 @@
 ECSDebugLayer::ECSDebugLayer() : Layer("ECSDebugLayer") {}
 
 void ECSDebugLayer::OnAttach() {
-    m_TestEntity = m_Scene.CreateEntity("Test Entity");
-    auto& transform = m_TestEntity.GetComponent<Elyra::TransformComponent>();
-    transform.Position = {1.0f, 2.0f, 3.0f};
-
-    Elyra::Log::GetCoreLogger()->info(
-        "Entity {} created with initial position: ({}, {}, {})", m_TestEntity.GetID(),
-        transform.Position.x, transform.Position.y, transform.Position.z);
+    m_Scene = Elyra::SceneManager::GetActiveScene();
+    m_TestEntity = m_Scene->GetEntityByName("Cube");
 }
 
 void ECSDebugLayer::OnUpdate(Elyra::TimeStep ts) {
