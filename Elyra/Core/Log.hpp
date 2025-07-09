@@ -1,6 +1,5 @@
 #pragma once
 #include "Elyra.hpp"
-#include <memory>
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h"
 
@@ -32,3 +31,9 @@ namespace Elyra {
 #define EL_WARN(...)           ::Elyra::Log::GetClientLogger()->warn(__VA_ARGS__)
 #define EL_ERROR(...)          ::Elyra::Log::GetClientLogger()->error(__VA_ARGS__)
 #define EL_CRITICAL(...)       ::Elyra::Log::GetClientLogger()->critical(__VA_ARGS__)
+
+#define EL_ASSERT(x, ...) \
+    { if (!(x)) { EL_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+
+#define EL_TAGGED_CORE_INFO(tag, ...)    EL_CORE_INFO("[" tag "] " __VA_ARGS__)
+#define EL_TAGGED_CLIENT_WARN(tag, ...)  EL_WARN("[" tag "] " __VA_ARGS__)
