@@ -1,4 +1,8 @@
 #include "Scene/Scene.hpp"
+#include "Scene/CameraSystem.hpp"
+#include "Scene/RenderSystem.hpp"
+#include "Scene/ScriptSystem.hpp"
+
 
 namespace Elyra {
 
@@ -12,24 +16,25 @@ namespace Elyra {
 
     void Scene::OnUpdate(TimeStep ts)
     {
-        for (auto& entity : GetAllEntities())
-        {
-            if (!entity.HasComponent<ScriptableComponent>())
-                continue;
-
-            auto& sc = entity.GetComponent<ScriptableComponent>();
-
-            if (!sc.Instance)
-            {
-                sc.Instance = sc.InstantiateScript();
-                sc.Instance->m_Entity = entity;
-                sc.Instance->OnCreate();
-            }
-
-            sc.Instance->OnUpdate(ts);
-        }
+        ScriptSystem::OnUpdate(this,ts);
+        CameraSystem::OnUpdate(this, ts);
+        RenderSystem::OnRender(this);
     }
 
+    void Scene::OnEvent(Event& e)
+    {
+        CameraSystem::OnEvent(this, e);
+        // ...forward to other systems if needed
+    }
+
+
+    void Scene::OnViewportResize(uint32_t width, uint32_t height)
+    {
+        m_ViewportWidth = width;
+        m_ViewportHeight = height;
+
+        CameraSystem::OnViewportResize(this, width, height);
+    }
 
 
     void Scene::DestroyEntity(Entity entity) {

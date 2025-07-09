@@ -29,6 +29,7 @@ public:
     void SetTexture(const std::string& name, const Ref<Texture2D>& texture);
 
     static void SetGlobalUniforms(const Ref<UniformSet>& uniforms); //for global uniforms
+    static Ref<UniformSet> GetGlobalUniform() {return s_GlobalUniforms;}
 
     bool HasTexture(const std::string& name) const;
 

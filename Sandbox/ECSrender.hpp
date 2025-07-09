@@ -16,5 +16,4 @@ public:
 
 private:
     std::shared_ptr<Elyra::Scene> m_Scene;
-    Elyra::Entity a_camera;
 };

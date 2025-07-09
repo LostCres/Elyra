@@ -4,6 +4,7 @@
 #include "ECS/Registry.hpp"
 #include "ECS/Component.hpp"
 #include "Core/TimeStep.hpp"
+#include "Events/Event.hpp"
 
 namespace Elyra {
 
@@ -31,9 +32,28 @@ public:
     Entity GetEntityByName(const std::string& name);
     std::vector<Entity> GetAllEntities();
 
-     void OnUpdate(TimeStep ts);
+    void OnUpdate(TimeStep ts);
+
+    void OnEvent(Event& e);
+
+    void OnViewportResize(uint32_t width, uint32_t height);
+
+
+    Entity GetActiveCamera() const { return m_ActiveCamera; }
+    void SetActiveCamera(Entity camera) { m_ActiveCamera = camera; }
+
+    void SetViewportSize(uint32_t width, uint32_t height)
+    {
+        m_ViewportWidth = width;
+        m_ViewportHeight = height;
+    }
+
+    uint32_t GetViewportWidth() const { return m_ViewportWidth; }
+    uint32_t GetViewportHeight() const { return m_ViewportHeight; }
 
 private:
+    uint32_t m_ViewportWidth = 1280, m_ViewportHeight = 720;
+    Entity m_ActiveCamera;
     EntityID m_NextEntityID = 1;
     std::vector<EntityID> m_Entities;
     Registry m_Registry;

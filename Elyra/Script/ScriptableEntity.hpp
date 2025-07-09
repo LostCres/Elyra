@@ -31,6 +31,7 @@ class ScriptableEntity
         Entity m_Entity;
 
         friend class Scene; // Scene can set the entity handle
+        friend class ScriptSystem;
     };
 
 }
