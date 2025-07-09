@@ -102,5 +102,4 @@ void SandboxLayer::OnUIRender()
     }
 
     Elyra::UI::EndPanel();
-
 }

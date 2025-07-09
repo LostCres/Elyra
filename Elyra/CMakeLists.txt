@@ -31,6 +31,7 @@ file(GLOB_RECURSE ELYRA_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/Layer/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Input/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/UI/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ECS/*.cpp
 )
 
 add_library(Elyra SHARED ${ELYRA_SRC})
@@ -45,6 +46,7 @@ target_include_directories(Elyra PUBLIC
     ${CMAKE_SOURCE_DIR}/vendor/glfw/include
     ${CMAKE_SOURCE_DIR}/vendor/spdlog/include
     ${CMAKE_SOURCE_DIR}/vendor/glm/include
+    ${CMAKE_SOURCE_DIR}/vendor/entt/
 )
 
 # Link directories for glfw

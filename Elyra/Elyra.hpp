@@ -10,6 +10,10 @@
 
 #include "UI/UI.hpp"
 
+#include "ECS/Scene.hpp"
+#include "ECS/Entity.hpp"
+#include "ECS/Component.hpp"
+
 #include "Renderer/Buffer.hpp"
 #include "Renderer/VertexArray.hpp"
 #include "Renderer/Renderer.hpp"
