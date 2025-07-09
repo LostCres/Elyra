@@ -10,7 +10,7 @@ public:
     void OnAttach() override;
     void OnDetach() override;
     void OnUpdate(Elyra::TimeStep ts) override;
-    void OnImGuiRender(ImGuiContext* context) override;
+    void OnUIRender() override;
     void OnEvent(Elyra::Event& e) override;
 
 private:

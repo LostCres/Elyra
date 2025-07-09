@@ -54,15 +54,6 @@ void SandboxLayer::OnDetach() {
     // Cleanup if needed
 }
 
-void SandboxLayer::OnImGuiRender(ImGuiContext* context){
-
-    ImGui::SetCurrentContext(context);
-    
-    ImGui::Begin("Sandbox GUI");
-    ImGui::Text("Hello from SandboxLayer!");
-    ImGui::End();
-}
-
 void SandboxLayer::OnUpdate(Elyra::TimeStep ts) {
     Elyra::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1.0f});
     Elyra::RenderCommand::Clear();
@@ -91,4 +82,25 @@ void SandboxLayer::OnEvent(Elyra::Event& event) {
         Elyra::MouseButtonPressedEvent& mouseEvent = static_cast<Elyra::MouseButtonPressedEvent&>(event);
         EL_INFO("MouseButtonPressed: {}", static_cast<int>(mouseEvent.GetMouseButton()));
     }
+}
+
+void SandboxLayer::OnUIRender()
+{
+    Elyra::UI::BeginPanel("Controls");
+
+    static bool enabled = true;
+    static float size = 0.5f;
+    static std::string name = "Elyra";
+
+    Elyra::UI::Text("Hello, " + name);
+    Elyra::UI::Checkbox("Enable feature", &enabled);
+    Elyra::UI::SliderFloat("Size", &size, 0.0f, 1.0f);
+    Elyra::UI::InputText("Name", name);
+    if (Elyra::UI::Button("Click Me"))
+    {
+        EL_INFO("Button clicked with name: {}", name);
+    }
+
+    Elyra::UI::EndPanel();
+
 }

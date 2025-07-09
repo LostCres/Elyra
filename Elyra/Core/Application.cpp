@@ -3,6 +3,7 @@
 #include "TimeStep.hpp"
 #include "Log.hpp"
 #include "Input/Input.hpp"
+#include "UI/UIManager.hpp"
 
 Elyra::Application* Elyra::Application::s_Instance = nullptr;
 
@@ -10,18 +11,20 @@ namespace Elyra {
 
     Application::Application(const WindowProps& props) {
         Log::Init();
-
         s_Instance = this;
 
         m_Window = Window::Create(props);
         m_Window->SetEventCallback([this](Event& e) {
             OnEvent(e);
         });
-        
-        ImGuiManager::Init(static_cast<GLFWwindow*>(m_Window->GetNativeWindow()));
+
+        UIManager::Init(m_Window->GetNativeWindow());
     }
 
-    Application::~Application() = default;
+    Application::~Application()
+    {
+        UIManager::Shutdown();
+    }
 
     void Application::Run() {
         EL_CORE_INFO("Engine starting...");
@@ -36,7 +39,8 @@ namespace Elyra {
             TimeStep deltaTime = currentTime - lastTime;
             lastTime = currentTime;
 
-            if (Elyra::Input::IsKeyPressed(Elyra::Key::Key_Escape)) {
+
+            if (Input::IsKeyPressed(Key::Key_Escape)) {
                 m_Running = false;
                 EL_CORE_INFO("Escape pressed: Closing Application.");
             }
@@ -45,11 +49,10 @@ namespace Elyra {
                 layer->OnUpdate(deltaTime);
             }
 
-            ImGuiManager::BeginFrame();
-            ImGuiContext* context = ImGui::GetCurrentContext();
+            UIManager::Begin();
             for (auto& layer : m_LayerStack)
-                layer->OnImGuiRender(context);
-            ImGuiManager::EndFrame();
+                layer->OnUIRender();
+            UIManager::End();
 
             m_Window->OnUpdate();
         }

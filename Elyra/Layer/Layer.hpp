@@ -4,7 +4,6 @@
 #include "ElyraAPI.hpp"
 #include "Events/Event.hpp"
 #include "Core/TimeStep.hpp"
-#include "ImGui/ImGuiManager.hpp"
 
 namespace Elyra {
 
@@ -15,9 +14,9 @@ namespace Elyra {
 
         virtual void OnAttach() {}
         virtual void OnDetach() {}
-        virtual void OnUpdate(TimeStep ts) {}
-        virtual void OnImGuiRender(ImGuiContext* context) {} 
+        virtual void OnUpdate(TimeStep ts) {} 
         virtual void OnEvent(Event& event) {}
+        virtual void OnUIRender() {} 
 
         inline const std::string& GetName() const { return m_DebugName; }
 

@@ -30,7 +30,7 @@ file(GLOB_RECURSE ELYRA_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Camera/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Layer/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Input/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/ImGui/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/UI/*.cpp
 )
 
 add_library(Elyra SHARED ${ELYRA_SRC})
