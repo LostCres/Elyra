@@ -45,6 +45,13 @@ namespace Elyra {
         return glm::normalize(glm::cross(GetRightDirection(), GetForwardDirection()));
     }
 
+    void PerspectiveCamera::SetFOV(float FOV)
+    {
+        m_FOV = FOV;
+        m_ProjectionMatrix = glm::perspective(glm::radians(m_FOV), m_AspectRatio, m_NearClip, m_FarClip);
+        RecalculateViewMatrix();
+    }
+
     void PerspectiveCamera::SetViewportSize(float width, float height)
     {
         m_AspectRatio = width / height;

@@ -5,28 +5,43 @@
 #include <glm/gtx/string_cast.hpp>
 
 ECSrender::ECSrender()
-    : Layer("Sandbox"), m_CameraController(45.0f, 1280.0f / 720.0f, 0.01f, 100.0f) {}        // 
+    : Layer("Sandbox") {}
 
 void ECSrender::OnAttach() {
-
-    auto cubeMesh = Elyra::Primitives::Cube();
-    auto sphereMesh = Elyra::Primitives::Sphere();  
-    auto cubeShader = Elyra::Shader::Create("Assets/shaders/Cube.vert","Assets/shaders/Cube.frag");
 
     // Simulate ECS: create a cube entity with components
     m_Scene = std::make_shared<Elyra::Scene>();
     Elyra::SceneManager::SetActiveScene(m_Scene);
+    Elyra::Material::SetDefaultShader(Elyra::Shader::Create("Assets/shaders/vertex.glsl","Assets/shaders/fragment.glsl"));
 
-    
+    auto cam1 = m_Scene->CreateEntity("cam1");
+    cam1.AddComponent<Elyra::CameraComponent>().Primary = true;
+    cam1.AddComponent<Elyra::CameraControllerComponent>();
+    cam1.GetComponent<Elyra::CameraControllerComponent>().Controller.SetCamera(&cam1.GetComponent<Elyra::CameraComponent>().Camera);
+
+    auto cam2 = m_Scene->CreateEntity("cam2");
+    cam2.AddComponent<Elyra::CameraComponent>().Primary = true;
+    cam2.AddComponent<Elyra::CameraControllerComponent>();
+    cam2.GetComponent<Elyra::CameraControllerComponent>().Controller.SetCamera(&cam2.GetComponent<Elyra::CameraComponent>().Camera);
+
+    a_camera = cam1;
+
+    auto cubeMesh = Elyra::Primitives::Cube();
+    auto material = Elyra::Material::Create();
+    material->Set("u_BaseColor", glm::vec3(1.0f, 0.0f, 0.0f)); // Red
 
     auto cube = m_Scene->CreateEntity("Cube");
     cube.AddComponent<Elyra::MeshComponent>().MeshData      = cubeMesh;
-    cube.AddComponent<Elyra::MaterialComponent>().ShaderData  = cubeShader;
+    cube.AddComponent<Elyra::MaterialComponent>().MaterialData = material;
     cube.GetComponent<Elyra::TransformComponent>().Position = { 0.0f, 0.0f, 0.0f };
+
+    auto sphereMesh = Elyra::Primitives::Sphere();
+    auto material2 = Elyra::Material::Create();
+    material2->Set("u_BaseColor", glm::vec3(0.0f, 0.0f, 1.0f));// Blue 
 
     auto sphere = m_Scene->CreateEntity("Sphere");
     sphere.AddComponent<Elyra::MeshComponent>().MeshData = sphereMesh;
-    sphere.AddComponent<Elyra::MaterialComponent>().ShaderData = cubeShader;
+    sphere.AddComponent<Elyra::MaterialComponent>().MaterialData = material2;
     sphere.GetComponent<Elyra::TransformComponent>().Position = {0.0f, 2.0f,0.0f};
 }
 
@@ -35,15 +50,21 @@ void ECSrender::OnDetach() {
 }
 
 void ECSrender::OnUpdate(Elyra::TimeStep ts) {
-
-    m_CameraController.OnUpdate(ts);
     
     Elyra::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1.0f});
     Elyra::RenderCommand::Clear();
 
-    Elyra::Renderer::BeginScene(m_CameraController.GetCamera());
-    m_CameraController.SetSpeed(speed);
-    m_Campos = m_CameraController.GetCamera().GetPosition();
+    // use the active camera safely
+    auto& camComp  = a_camera.GetComponent<Elyra::CameraComponent>();
+    auto& ctrlComp = a_camera.GetComponent<Elyra::CameraControllerComponent>();
+
+    ctrlComp.Controller.OnUpdate(ts);
+
+    auto& transform = a_camera.GetComponent<Elyra::TransformComponent>();
+    transform.Position = camComp.Camera.GetPosition();
+    transform.Rotation = camComp.Camera.GetRotation();
+
+    Elyra::Renderer::BeginScene(camComp.Camera);
 
     for (auto& entity : m_Scene->GetAllEntities())
     {
@@ -56,7 +77,7 @@ void ECSrender::OnUpdate(Elyra::TimeStep ts) {
             auto& matComp   = entity.GetComponent<Elyra::MaterialComponent>();
 
             Elyra::Renderer::Submit(
-                matComp.ShaderData,
+                matComp.MaterialData,
                 meshComp.MeshData->GetVertexArray(),
                 transform.GetTransform()
             );
@@ -69,7 +90,8 @@ void ECSrender::OnUpdate(Elyra::TimeStep ts) {
 }
 
 void ECSrender::OnEvent(Elyra::Event& event) {
-    m_CameraController.OnEvent(event);  // <--- forward events
+    
+    a_camera.GetComponent<Elyra::CameraControllerComponent>().Controller.OnEvent(event);
 
     if (event.GetEventType() == Elyra::EventType::WindowResize)
     {
@@ -77,15 +99,45 @@ void ECSrender::OnEvent(Elyra::Event& event) {
         auto width = static_cast<uint32_t>(Size.GetWidth());
         auto height = static_cast<uint32_t>(Size.GetHeight());
         Elyra::Renderer::OnWindowResize(width,height);
-        m_CameraController.OnResize((float)Size.GetWidth(),(float)Size.GetHeight());
+        a_camera.GetComponent<Elyra::CameraComponent>().Camera.SetViewportSize((float)Size.GetWidth(),(float)Size.GetHeight());
+    }
+    if (event.GetEventType() == Elyra::EventType::KeyPressed)
+    {
+
+        if(static_cast<Elyra::KeyPressedEvent&>(event).GetKeyCode()==Elyra::Key_M)
+        {
+            if (a_camera == m_Scene->GetEntityByName("cam1"))
+            {
+                a_camera = m_Scene->GetEntityByName("cam2");
+            }          
+            else if (a_camera == m_Scene->GetEntityByName("cam2"))
+            {
+                a_camera = m_Scene->GetEntityByName("cam1");
+            }
+            else
+                EL_ERROR("Camera not found");
+        }           
     }
 }
 
 void ECSrender::OnUIRender()
 {
-    Elyra::UI::BeginPanel("Camera");
-    Elyra::UI::SliderFloat("Move speed", &speed, 1.0f, 10.0f);
-    Elyra::UI::Text("Pos: " + glm::to_string(m_Campos));
+    auto speed = a_camera.GetComponent<Elyra::CameraControllerComponent>().Controller.GetSpeed();
+    auto fov = a_camera.GetComponent<Elyra::CameraComponent>().Camera.GetFOV();
+    auto transform = a_camera.GetComponent<Elyra::TransformComponent>();
+
+    Elyra::UI::BeginPanel("Active Camera");
+    if(Elyra::UI::SliderFloat("Move Speed", &speed, 1.0f, 10.0f))
+        a_camera.GetComponent<Elyra::CameraControllerComponent>().Controller.SetSpeed(speed);
+    if(Elyra::UI::SliderFloat("FOV", &fov, 1.0f, 100.0f))
+        a_camera.GetComponent<Elyra::CameraComponent>().Camera.SetFOV(fov);
+    Elyra::UI::Text("Camera: "+a_camera.GetComponent<Elyra::TagComponent>().Tag);
+    Elyra::UI::Text("Position: (" + std::to_string(transform.Position.x) + ", " +
+                     std::to_string(transform.Position.y) + ", " +
+                     std::to_string(transform.Position.z) + ")");
+    Elyra::UI::Text("Rotation: (" + std::to_string(transform.Rotation.x) + ", " +
+                     std::to_string(transform.Rotation.y) + ", " +
+                     std::to_string(transform.Rotation.z) + ")");
     Elyra::UI::EndPanel();
 
 }

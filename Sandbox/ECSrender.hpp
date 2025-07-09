@@ -15,9 +15,6 @@ public:
     void OnEvent(Elyra::Event& e) override;
 
 private:
-    float speed = 5;
     std::shared_ptr<Elyra::Scene> m_Scene;
-    glm::vec3 m_Campos;
-    
-    Elyra::PerspectiveCameraController m_CameraController;
+    Elyra::Entity a_camera;
 };

@@ -3,6 +3,7 @@
 #include "Core/Core.hpp"
 #include "Renderer/Core/RenderCommand.hpp"
 #include "Renderer/Shader/Shader.hpp"
+#include "Renderer/Material/Material.hpp"
 #include "Renderer/Camera/OrthographicCamera.hpp"
 #include "Renderer/Camera/PerspectiveCamera.hpp"
 
@@ -20,6 +21,9 @@ namespace Elyra {
 
         static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,
                            const glm::mat4& transform = glm::mat4(1.0f));
+        static void Submit(const Ref<Material>& material, const Ref<VertexArray>& vertexArray,
+                           const glm::mat4& transform = glm::mat4(1.0f));
+                           
         static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
     private:

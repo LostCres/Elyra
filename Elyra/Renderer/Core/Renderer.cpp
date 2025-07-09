@@ -37,4 +37,14 @@ namespace Elyra {
         RenderCommand::DrawIndexed(vertexArray);
     }
 
+    void Renderer::Submit(const Ref<Material>& material, const Ref<VertexArray>& vertexArray,
+                          const glm::mat4& transform) {
+        material->Bind();
+        Ref<Shader> shader = material->GetShader();
+        shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+        shader->SetMat4("u_Transform", transform);
+        vertexArray->Bind();
+        RenderCommand::DrawIndexed(vertexArray);
+    }
+
 }

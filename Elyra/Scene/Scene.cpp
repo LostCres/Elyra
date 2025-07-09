@@ -31,6 +31,7 @@ Entity Scene::GetEntityByName(const std::string& name) {
                 return entity;
         }
     }
+    EL_CORE_ERROR("Scene:Enitiy not Found");
     return Entity(0, this); // Invalid
 }
 

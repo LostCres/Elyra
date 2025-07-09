@@ -3,9 +3,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "ElyraAPI.hpp"
+#include "Core/Core.hpp"
 #include "Renderer/Mesh/Mesh.hpp"
 #include "Renderer/Shader/Shader.hpp"
-
+#include "Renderer/Camera/PerspectiveCamera.hpp"
+#include "Renderer/Camera/PerspectiveCameraController.hpp"
+#include "Renderer/Material/Material.hpp"
 
 namespace Elyra {
 
@@ -35,23 +38,51 @@ namespace Elyra {
         }
     };
 
-    
+    struct ELYRA_API CameraComponent
+    {
+        PerspectiveCamera Camera;
+        bool Primary = false;
+
+        // Default: a sensible 45° FOV, 16:9 aspect, 0.1–100 clip range
+        CameraComponent()
+            : Camera(45.0f, 16.0f / 9.0f, 0.1f, 100.0f) {}
+
+        // Custom configuration
+        CameraComponent(float fovY, float aspect, float nearClip, float farClip,
+                        bool primary = false)
+            : Camera(fovY, aspect, nearClip, farClip), Primary(primary) {}
+    };
+
+    struct ELYRA_API CameraControllerComponent
+    {
+        PerspectiveCameraController Controller;
+
+        CameraControllerComponent() = default;
+    };
 
 
     struct MeshComponent {
-        std::shared_ptr<Mesh> MeshData;
+        Ref<Mesh> MeshData;
 
         MeshComponent() = default;
-        MeshComponent(const std::shared_ptr<Mesh>& mesh)
+        MeshComponent(const Ref<Mesh>& mesh)
             : MeshData(mesh) {}
     };
 
+    struct ShaderComponent {
+        Ref<Shader> ShaderData;
+
+        ShaderComponent() = default;
+        ShaderComponent(const Ref<Shader>& shader)
+            : ShaderData(shader) {}
+    };
+
     struct MaterialComponent {
-        std::shared_ptr<Shader> ShaderData;
+        Ref<Material> MaterialData;
 
         MaterialComponent() = default;
-        MaterialComponent(const std::shared_ptr<Shader>& shader)
-            : ShaderData(shader) {}
+        MaterialComponent(const Ref<Material>& material)
+            : MaterialData(material) {}
     };
     
 }

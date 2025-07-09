@@ -11,17 +11,15 @@ namespace Elyra {
     class ELYRA_API PerspectiveCameraController
     {
     public:
-        PerspectiveCameraController(float fovY, float aspectRatio, float nearClip = 0.1f, float farClip = 100.0f);
+        PerspectiveCameraController() = default;
 
         void OnUpdate(TimeStep ts);
         void OnEvent(Event& e);
-        void OnResize(float width, float height);
-
-        const PerspectiveCamera& GetCamera() const { return m_Camera; }
-        PerspectiveCamera& GetCamera() { return m_Camera; }
 
         float GetSpeed() const { return m_CameraSpeed; }
         void SetSpeed(float speed) { m_CameraSpeed = speed; }
+        void SetMouseSensitivity(float mouseSensitivity){m_MouseSensitivity = mouseSensitivity;}
+        void SetCamera(PerspectiveCamera* Camera){m_Camera = Camera;}
 
     private:
         bool OnMouseMoved(MouseMovedEvent& e);
@@ -31,7 +29,7 @@ namespace Elyra {
         void UpdateView();
 
     private:
-        PerspectiveCamera m_Camera;
+        PerspectiveCamera* m_Camera = nullptr;
         float m_CameraSpeed = 5.0f;
         float m_MouseSensitivity = 0.1f;
 

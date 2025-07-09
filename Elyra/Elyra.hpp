@@ -5,6 +5,7 @@
 #include "Core/Application.hpp"
 #include "Core/TimeStep.hpp"
 
+
 #include "Events/KeyEvent.hpp"
 #include "Events/MouseEvent.hpp"
 #include "Events/ApplicationEvent.hpp"
@@ -14,11 +15,13 @@
 #include "Scene/SceneManager.hpp"
 #include "Scene/Scene.hpp"
 
-#include "Renderer/Camera/OrthographicCamera.hpp"
-#include "Renderer/Camera/PerspectiveCameraController.hpp"
-
 #include "ECS/Entity.hpp"
 #include "ECS/Component.hpp"
+
+#include "Renderer/Material/Material.hpp"
+
+#include "Renderer/Camera/OrthographicCamera.hpp"
+#include "Renderer/Camera/PerspectiveCameraController.hpp"
 
 #include "Renderer/Mesh/Mesh.hpp"
 #include "Renderer/Mesh/Primitives.hpp"

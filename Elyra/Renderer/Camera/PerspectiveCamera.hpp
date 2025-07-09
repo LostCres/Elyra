@@ -12,8 +12,10 @@ namespace Elyra {
 
         void SetPosition(const glm::vec3& position);
         void SetRotation(const glm::vec3& rotation); // pitch, yaw, roll
+        void SetFOV(float FOV);
+        float GetFOV(){return m_FOV;}
 
-        void SetViewportSize(float width, float height);
+        void SetViewportSize(float width,float height);
 
         const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }
         const glm::mat4& GetProjectionMatrix() const { return m_ProjectionMatrix; }
@@ -30,7 +32,7 @@ namespace Elyra {
 
     private:
         float m_FOV, m_AspectRatio, m_NearClip, m_FarClip;
-
+        float m_width , m_height;
         glm::mat4 m_ProjectionMatrix;
         glm::mat4 m_ViewMatrix;
         glm::mat4 m_ViewProjectionMatrix;
