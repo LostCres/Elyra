@@ -12,4 +12,6 @@
 
 #include "Core/Log.hpp"
 #include "Core/Application.hpp"
+#include "Events/KeyEvent.hpp"
+#include "Events/MouseEvent.hpp"
 

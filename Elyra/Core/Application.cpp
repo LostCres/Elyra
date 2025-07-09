@@ -3,9 +3,12 @@
 #include "TimeStep.hpp"
 #include "Log.hpp"
 
+Elyra::Application* Elyra::Application::s_Instance = nullptr;
+
 namespace Elyra {
 
     Application::Application() {
+        s_Instance = this;
         Log::Init();
 
         m_Window = Window::Create({ "Elyra Engine", 1280, 720 });
@@ -29,7 +32,12 @@ namespace Elyra {
             TimeStep deltaTime = currentTime - lastTime;
             lastTime = currentTime;
 
-            EL_CORE_INFO("Delta Time: {0} ms", deltaTime.GetMilliseconds());
+            //EL_CORE_INFO("Delta Time: {0} ms", deltaTime.GetMilliseconds());
+
+            if (Elyra::Input::IsKeyPressed(Elyra::Key::Key_Escape)) {
+                m_Running = false;
+                EL_CORE_INFO("Escape pressed: Closing Application.");
+            }
 
             for (auto& layer : m_LayerStack) {
                 layer->OnUpdate(deltaTime);

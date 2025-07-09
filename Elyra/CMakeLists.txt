@@ -11,6 +11,7 @@ file(GLOB_RECURSE ELYRA_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/Platform/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Layer/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Input/*.cpp
 )
 
 add_library(Elyra SHARED ${ELYRA_SRC})
