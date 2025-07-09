@@ -33,6 +33,7 @@ file(GLOB_RECURSE ELYRA_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/UI/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/ECS/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Scene/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Script/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Mesh/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Core/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Shader/*.cpp

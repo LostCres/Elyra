@@ -9,6 +9,7 @@
 #include "Renderer/Camera/PerspectiveCamera.hpp"
 #include "Renderer/Camera/PerspectiveCameraController.hpp"
 #include "Renderer/Material/Material.hpp"
+#include "Script/ScriptableEntity.hpp"
 
 namespace Elyra {
 
@@ -16,6 +17,22 @@ namespace Elyra {
         std::string Tag;
         TagComponent() = default;
         TagComponent(const std::string tag) : Tag(std::move(tag)) {}
+    };
+
+    struct ELYRA_API ScriptableComponent {
+        ScriptableEntity* Instance = nullptr;
+
+        ScriptableEntity* (*InstantiateScript)();
+        void (*DestroyScript)(ScriptableComponent*);
+
+        template<typename T>
+        void Bind() {
+            InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
+            DestroyScript = [](ScriptableComponent* comp) {
+                delete comp->Instance;
+                comp->Instance = nullptr;
+            };
+        }
     };
 
     struct ELYRA_API TransformComponent {

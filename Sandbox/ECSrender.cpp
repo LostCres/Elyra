@@ -3,9 +3,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/string_cast.hpp>
+#include "SpinScript.hpp"
 
 ECSrender::ECSrender()
     : Layer("Sandbox") {}
+
+auto globalUniforms = Elyra::UniformSet::Create();
 
 void ECSrender::OnAttach() {
 
@@ -13,7 +16,6 @@ void ECSrender::OnAttach() {
     Elyra::SceneManager::SetActiveScene(m_Scene);
     Elyra::Material::SetDefaultShader(Elyra::Shader::Create("Assets/shaders/vertex.glsl","Assets/shaders/fragment.glsl"));
 
-    auto globalUniforms = Elyra::UniformSet::Create();
     globalUniforms->Set("ambientColor", glm::vec3(0.2f));
 
     Elyra::Material::SetGlobalUniforms(globalUniforms);
@@ -45,6 +47,7 @@ void ECSrender::OnAttach() {
     cube.AddComponent<Elyra::MeshComponent>().MeshData      = cubeMesh;
     cube.AddComponent<Elyra::MaterialComponent>().MaterialData = material;
     cube.GetComponent<Elyra::TransformComponent>().Position = { 0.0f, 0.5f, 0.0f };
+    cube.AddComponent<Elyra::ScriptableComponent>().Bind<SpinScript>();//script
 
     auto sphereMesh = Elyra::Primitives::Sphere();
     auto material2 = Elyra::Material::Create();
@@ -60,6 +63,7 @@ void ECSrender::OnAttach() {
     auto plane = m_Scene->CreateEntity("Plane");
     plane.AddComponent<Elyra::MeshComponent>().MeshData = planeMesh;
     plane.AddComponent<Elyra::MaterialComponent>().MaterialData = material2;
+    plane.AddComponent<Elyra::ScriptableComponent>().Bind<SpinScript>();//scrip
 
     for (auto& entity : m_Scene->GetAllEntities())
     {
@@ -76,6 +80,7 @@ void ECSrender::OnDetach() {
 }
 
 void ECSrender::OnUpdate(Elyra::TimeStep ts) {
+    m_Scene->OnUpdate(ts);
     
     Elyra::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1.0f});
     Elyra::RenderCommand::Clear();
@@ -109,8 +114,6 @@ void ECSrender::OnUpdate(Elyra::TimeStep ts) {
             );
         }
     }
-    auto cube = m_Scene->GetEntityByName("Cube");
-    cube.GetComponent<Elyra::TransformComponent>().Rotation.y += ts * glm::radians(90.0f);
     Elyra::Renderer::EndScene();
 }
 

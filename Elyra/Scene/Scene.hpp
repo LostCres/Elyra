@@ -3,6 +3,7 @@
 #include "Elyrapch.hpp"
 #include "ECS/Registry.hpp"
 #include "ECS/Component.hpp"
+#include "Core/TimeStep.hpp"
 
 namespace Elyra {
 
@@ -29,6 +30,8 @@ public:
 
     Entity GetEntityByName(const std::string& name);
     std::vector<Entity> GetAllEntities();
+
+     void OnUpdate(TimeStep ts);
 
 private:
     EntityID m_NextEntityID = 1;

@@ -18,6 +18,8 @@
 #include "ECS/Entity.hpp"
 #include "ECS/Component.hpp"
 
+#include "Script/ScriptableEntity.hpp"
+
 #include "Renderer/Material/Material.hpp"
 
 #include "Renderer/Texture/Texture.hpp"
