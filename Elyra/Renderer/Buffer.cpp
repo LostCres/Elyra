@@ -4,12 +4,12 @@
 
 namespace Elyra {
 
-Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
+Ref<VertexBuffer> VertexBuffer::Create(const float* vertices, uint32_t size)
 {
     return CreateRef<OpenGLVertexBuffer>(vertices, size);
 }
 
-Ref<IndexBuffer> IndexBuffer::Create(uint32_t* indices, uint32_t count)
+Ref<IndexBuffer> IndexBuffer::Create(const uint32_t* indices, uint32_t count)
 {
     return CreateRef<OpenGLIndexBuffer>(indices, count);
 }

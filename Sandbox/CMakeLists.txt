@@ -3,6 +3,7 @@ add_executable(Sandbox
     SandboxApp.cpp
     SandboxLayer.cpp
     ECSDebugLayer.cpp
+    ECSrender.cpp
     ${CMAKE_SOURCE_DIR}/Elyra/EntryPoint.cpp
 )
 

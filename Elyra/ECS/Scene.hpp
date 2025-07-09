@@ -87,8 +87,25 @@ public:
         GetPool<T>().Remove(entity.GetID());
     }
 
+    std::vector<Entity> GetAllEntities();
+
+    Entity GetEntityByName(const std::string& name) {
+        for (EntityID id : m_Entities) {
+            Entity entity(id, this);
+            if (HasComponent<TagComponent>(entity)) {
+                const auto& tag = GetComponent<TagComponent>(entity).Tag;
+                if (tag == name)
+                    return entity;
+            }
+        }
+
+        // Optional: return an invalid Entity (ID 0) if not found
+        return Entity(0, this);
+    }
+
 private:
     EntityID m_NextEntityID = 1;
+    std::vector<EntityID> m_Entities; // ✨ Track all created entities
 
     std::unordered_map<std::type_index, std::unique_ptr<IComponentPool>> m_Pools;
 

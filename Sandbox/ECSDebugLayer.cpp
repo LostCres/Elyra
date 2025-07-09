@@ -13,10 +13,8 @@ void ECSDebugLayer::OnAttach() {
         transform.Position.x, transform.Position.y, transform.Position.z);
 }
 
-void ECSDebugLayer::OnUpdate(Elyra::TimeStep) {
-    // Simple demo: spin the entity around Y axis
-    auto& transform = m_TestEntity.GetComponent<Elyra::TransformComponent>();
-    transform.Rotation.y += 0.5f; // rad/sec * dt (ignored for brevity)
+void ECSDebugLayer::OnUpdate(Elyra::TimeStep ts) {
+    
 }
 
 void ECSDebugLayer::OnUIRender() {
@@ -27,5 +25,8 @@ void ECSDebugLayer::OnUIRender() {
     Elyra::UI::Text("Position: (" + std::to_string(transform.Position.x) + ", " +
                      std::to_string(transform.Position.y) + ", " +
                      std::to_string(transform.Position.z) + ")");
+    Elyra::UI::Text("Rotation: (" + std::to_string(transform.Rotation.x) + ", " +
+                     std::to_string(transform.Rotation.y) + ", " +
+                     std::to_string(transform.Rotation.z) + ")");
     Elyra::UI::EndPanel();
 }

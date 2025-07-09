@@ -3,7 +3,7 @@
 
 namespace Elyra {
 
-    OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, uint32_t size) {
+    OpenGLVertexBuffer::OpenGLVertexBuffer(const float* vertices, uint32_t size) {
         glGenBuffers(1, &m_RendererID);
         glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
         glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
@@ -23,7 +23,7 @@ namespace Elyra {
 
     // Index Buffer
 
-    OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
+    OpenGLIndexBuffer::OpenGLIndexBuffer(const uint32_t* indices, uint32_t count)
         : m_Count(count) {
         glGenBuffers(1, &m_RendererID);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
