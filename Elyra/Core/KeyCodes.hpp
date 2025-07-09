@@ -86,7 +86,13 @@ namespace Elyra {
         Key_F10        = 299,
         Key_F11        = 300,
         Key_F12        = 301,
-        EL_KEY_LAST    = 302
+        Key_Left_Shift = 340,
+        Key_Left_Ctrl = 341,
+        Key_Left_Alt  = 342,             
+        Key_Right_Shift= 344,
+        Key_Right_Ctrl = 345,
+        Key_Right_Alt  = 346,
+        EL_KEY_LAST    = 347
         // Add more as needed...
     };
 

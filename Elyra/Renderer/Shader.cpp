@@ -32,4 +32,17 @@ namespace Elyra {
         return nullptr;
     }
 
+    Ref<Shader> Shader::Create(const std::string& vertexPath, const std::string& fragmentPath) {
+        switch (Renderer::GetAPI()) {
+            case RendererAPI::API::None:
+                EL_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
+                return nullptr;
+            case RendererAPI::API::OpenGL:
+                return CreateRef<OpenGLShader>(vertexPath, fragmentPath);
+        }
+
+        EL_CORE_ASSERT(false, "Unknown RendererAPI!");
+        return nullptr;
+    }
+
 }

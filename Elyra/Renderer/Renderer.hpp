@@ -4,6 +4,7 @@
 #include "RenderCommand.hpp"
 #include "Renderer/Shader.hpp"
 #include "Camera/OrthographicCamera.hpp"
+#include "Camera/PerspectiveCamera.hpp"
 
 namespace Elyra {
 
@@ -13,6 +14,8 @@ namespace Elyra {
         static void OnWindowResize(uint32_t width, uint32_t height);
 
         static void BeginScene(const OrthographicCamera& camera);
+        static void BeginScene(const PerspectiveCamera& camera);
+
         static void EndScene();
 
         static void Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray,

@@ -17,6 +17,11 @@ namespace Elyra {
     void Renderer::BeginScene(const OrthographicCamera& camera) {
         s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
     }
+    void Renderer::BeginScene(const PerspectiveCamera& camera)
+    {
+        s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+    }
+
 
     void Renderer::EndScene() {
         // Placeholder for batching/finalization

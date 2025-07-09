@@ -10,7 +10,7 @@ namespace Elyra {
     static GLenum ShaderTypeFromString(const std::string& type) {
         if (type == "vertex")   return GL_VERTEX_SHADER;
         if (type == "fragment" || type == "pixel") return GL_FRAGMENT_SHADER;
-        EL_CORE_ASSERT(false, "Unknown shader type: {0}", type);
+        EL_CORE_ASSERT("Unknown shader type: {0}", type);
         return 0;
     }
 
@@ -25,7 +25,7 @@ namespace Elyra {
             in.read(&source[0], size);
             in.close();
         } else {
-            EL_CORE_ASSERT(false, "Failed to open shader file: {0}", filepath);
+            EL_CORE_ASSERT("Failed to open shader file: {0}", filepath);
         }
 
         auto lastSlash = filepath.find_last_of("/\\");
@@ -37,6 +37,46 @@ namespace Elyra {
         auto shaderSources = PreProcess(source);
         Compile(shaderSources);
     }
+
+    OpenGLShader::OpenGLShader(const std::string& vertexPath, const std::string& fragmentPath)
+    {
+        std::string vertexSource;
+        std::string fragmentSource;
+
+        // Helper lambda for file loading
+        auto readFile = [](const std::string& path) -> std::string {
+            std::ifstream in(path, std::ios::in | std::ios::binary);
+            std::string result;
+            if (in) {
+                in.seekg(0, std::ios::end);
+                size_t size = in.tellg();
+                result.resize(size);
+                in.seekg(0);
+                in.read(&result[0], size);
+                in.close();
+            } else {
+                EL_CORE_ASSERT("Failed to open shader file: {0}", path);
+            }
+            return result;
+        };
+        
+        std::string filepath = vertexPath;
+        auto lastSlash = filepath.find_last_of("/\\");
+        lastSlash = (lastSlash == std::string::npos) ? 0 : lastSlash + 1;
+        auto lastDot = filepath.rfind('.');
+        auto count = (lastDot == std::string::npos) ? filepath.size() - lastSlash : lastDot - lastSlash;
+        m_Name = filepath.substr(lastSlash, count);
+
+        vertexSource   = readFile(vertexPath);
+        fragmentSource = readFile(fragmentPath);
+
+        std::unordered_map<GLenum, std::string> sources = {
+            {GL_VERTEX_SHADER, vertexSource},
+            {GL_FRAGMENT_SHADER, fragmentSource}
+        };
+        Compile(sources);
+    }
+
 
     OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
         : m_Name(name) {
@@ -68,6 +108,8 @@ namespace Elyra {
             size_t eol = source.find_first_of("\r\n", pos);
             EL_CORE_ASSERT(eol != std::string::npos, "Syntax error");
             size_t begin = pos + strlen(typeToken);
+            while (begin < eol && isspace(source[begin]))  // skip spaces/tabs
+                ++begin;
             std::string type = source.substr(begin, eol - begin);
             GLenum shaderType = ShaderTypeFromString(type);
 
