@@ -1,7 +1,7 @@
 #pragma once
 #include "ElyraAPI.hpp"
 #include "Core/Core.hpp"
-#include "Renderer/RendererAPI.hpp"
+#include "Renderer/Core/RendererAPI.hpp"
 
 namespace Elyra {
 

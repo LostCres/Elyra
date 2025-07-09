@@ -2,7 +2,7 @@
 #include "Elyrapch.hpp"
 #include "ElyraAPI.hpp"
 #include "Core/Core.hpp"
-#include "Renderer/Shader.hpp"
+#include "Renderer/Shader/Shader.hpp"
 
 namespace Elyra {
 

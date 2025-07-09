@@ -1,24 +1,18 @@
-#include "ECS/Scene.hpp"
-#include "ECS/Entity.hpp"
-#include "Elyrapch.hpp"
+#include "Scene/Scene.hpp"
 
 namespace Elyra {
 
 Entity Scene::CreateEntity(const std::string& name) {
     Entity entity(m_NextEntityID++, this);
-    // Every entity gets a tag + transform by default
     m_Entities.push_back(entity.GetID());
     AddComponent<TagComponent>(entity, name);
     AddComponent<TransformComponent>(entity);
-    AddComponent<MeshComponent>(entity);
-    AddComponent<MaterialComponent>(entity);
     return entity;
 }
 
 void Scene::DestroyEntity(Entity entity) {
-    // For a simple demo we won't remove components from every pool —
-    // they can stay or be garbage‑collected when pools are cleared.
-    (void)entity; // TODO: proper removal if needed
+    // TODO: Implement removal logic if needed
+    (void)entity;
 }
 
 std::vector<Entity> Scene::GetAllEntities() {
@@ -28,5 +22,16 @@ std::vector<Entity> Scene::GetAllEntities() {
     return result;
 }
 
+Entity Scene::GetEntityByName(const std::string& name) {
+    for (EntityID id : m_Entities) {
+        Entity entity(id, this);
+        if (HasComponent<TagComponent>(entity)) {
+            const auto& tag = GetComponent<TagComponent>(entity).Tag;
+            if (tag == name)
+                return entity;
+        }
+    }
+    return Entity(0, this); // Invalid
+}
 
 } // namespace Elyra

@@ -1,7 +1,7 @@
 #pragma once
 #include <glad/glad.h>
 #include "Elyrapch.hpp"
-#include "Renderer/Shader.hpp"
+#include "Renderer/Shader/Shader.hpp"
 #include <glm/glm.hpp>
 #include "Core/Core.hpp"
 

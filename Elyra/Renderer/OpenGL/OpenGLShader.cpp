@@ -1,4 +1,4 @@
-#include "OpenGLShader.hpp"
+#include "Renderer/OpenGL/OpenGLShader.hpp"
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "Core/Log.hpp"

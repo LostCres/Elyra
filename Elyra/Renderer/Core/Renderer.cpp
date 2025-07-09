@@ -1,5 +1,5 @@
 #include "Elyrapch.hpp"
-#include "Renderer.hpp"
+#include "Renderer/Core/Renderer.hpp"
 #include <glad/glad.h>
 
 namespace Elyra {

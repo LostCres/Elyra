@@ -1,6 +1,6 @@
 #include "Elyrapch.hpp"
-#include "RenderCommand.hpp"
-#include "OpenGL/OpenGLRendererAPI.hpp"
+#include "Renderer/Core/RenderCommand.hpp"
+#include "Renderer/OpenGL/OpenGLRendererAPI.hpp"
 
 namespace Elyra {
 

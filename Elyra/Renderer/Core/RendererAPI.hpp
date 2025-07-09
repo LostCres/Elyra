@@ -2,7 +2,7 @@
 #include "ElyraAPI.hpp"
 #include "Core/Core.hpp"
 #include <glm/glm.hpp>
-#include "Renderer/VertexArray.hpp"
+#include "Renderer/Core/VertexArray.hpp"
 
 namespace Elyra {
 

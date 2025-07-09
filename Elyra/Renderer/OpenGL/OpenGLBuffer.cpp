@@ -1,4 +1,4 @@
-#include "OpenGLBuffer.hpp"
+#include "Renderer/OpenGL/OpenGLBuffer.hpp"
 #include <glad/glad.h>
 
 namespace Elyra {

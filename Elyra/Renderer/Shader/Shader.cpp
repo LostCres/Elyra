@@ -1,7 +1,7 @@
 #include "Elyrapch.hpp"
 #include "Shader.hpp"
-#include "Renderer.hpp"
-#include "OpenGL/OpenGLShader.hpp"
+#include "Renderer/Core/Renderer.hpp"
+#include "Renderer/OpenGL/OpenGLShader.hpp"
 #include "Core/Log.hpp"
 
 namespace Elyra {

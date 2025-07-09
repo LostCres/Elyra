@@ -5,7 +5,7 @@
 #include <glm/gtx/string_cast.hpp>
 
 ECSrender::ECSrender()
-    : Layer("Sandbox"), m_CameraController(45.0f, 1280.0f / 720.0f, 0.01f, 100.0f) {}        //m_Camera(-1.6f, 1.6f, -0.9f, 0.9f)
+    : Layer("Sandbox"), m_CameraController(45.0f, 1280.0f / 720.0f, 0.01f, 100.0f) {}        // 
 
 void ECSrender::OnAttach() {
 
@@ -17,14 +17,16 @@ void ECSrender::OnAttach() {
     m_Scene = std::make_shared<Elyra::Scene>();
     Elyra::SceneManager::SetActiveScene(m_Scene);
 
+    
+
     auto cube = m_Scene->CreateEntity("Cube");
-    cube.GetComponent<Elyra::MeshComponent>().MeshData      = cubeMesh;
-    cube.GetComponent<Elyra::MaterialComponent>().ShaderData  = cubeShader;
+    cube.AddComponent<Elyra::MeshComponent>().MeshData      = cubeMesh;
+    cube.AddComponent<Elyra::MaterialComponent>().ShaderData  = cubeShader;
     cube.GetComponent<Elyra::TransformComponent>().Position = { 0.0f, 0.0f, 0.0f };
 
     auto sphere = m_Scene->CreateEntity("Sphere");
-    sphere.GetComponent<Elyra::MeshComponent>().MeshData = sphereMesh;
-    sphere.GetComponent<Elyra::MaterialComponent>().ShaderData = cubeShader;
+    sphere.AddComponent<Elyra::MeshComponent>().MeshData = sphereMesh;
+    sphere.AddComponent<Elyra::MaterialComponent>().ShaderData = cubeShader;
     sphere.GetComponent<Elyra::TransformComponent>().Position = {0.0f, 2.0f,0.0f};
 }
 
@@ -35,6 +37,7 @@ void ECSrender::OnDetach() {
 void ECSrender::OnUpdate(Elyra::TimeStep ts) {
 
     m_CameraController.OnUpdate(ts);
+    
     Elyra::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1.0f});
     Elyra::RenderCommand::Clear();
 

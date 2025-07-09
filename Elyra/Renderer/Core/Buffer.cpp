@@ -1,6 +1,6 @@
 #include "Elyrapch.hpp"
 #include "Buffer.hpp"
-#include "OpenGL/OpenGLBuffer.hpp"
+#include "Renderer/OpenGL/OpenGLBuffer.hpp"
 
 namespace Elyra {
 

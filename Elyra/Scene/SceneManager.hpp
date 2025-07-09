@@ -1,7 +1,7 @@
 #pragma once
 #include "ElyraAPI.hpp"
 #include "Core/core.hpp"     // whatever defines Ref<>
-#include "ECS/Scene.hpp"
+#include "Scene/Scene.hpp"
 
 namespace Elyra {
 

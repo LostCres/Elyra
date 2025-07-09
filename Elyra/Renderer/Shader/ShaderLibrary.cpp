@@ -1,6 +1,6 @@
 #include "Elyrapch.hpp"
 #include "Core/Core.hpp"
-#include "ShaderLibrary.hpp"
+#include "Renderer/Shader/ShaderLibrary.hpp"
 #include "Core/Log.hpp"
 
 namespace Elyra {

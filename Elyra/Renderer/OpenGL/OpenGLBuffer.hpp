@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Renderer/Buffer.hpp"
+#include "Renderer/Core/Buffer.hpp"
 
 namespace Elyra {
 

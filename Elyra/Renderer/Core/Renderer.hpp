@@ -1,10 +1,10 @@
 #pragma once
 #include "ElyraAPI.hpp"
 #include "Core/Core.hpp"
-#include "RenderCommand.hpp"
-#include "Renderer/Shader.hpp"
-#include "Camera/OrthographicCamera.hpp"
-#include "Camera/PerspectiveCamera.hpp"
+#include "Renderer/Core/RenderCommand.hpp"
+#include "Renderer/Shader/Shader.hpp"
+#include "Renderer/Camera/OrthographicCamera.hpp"
+#include "Renderer/Camera/PerspectiveCamera.hpp"
 
 namespace Elyra {
 

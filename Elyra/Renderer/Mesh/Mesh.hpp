@@ -1,8 +1,8 @@
 #pragma once
 #include "ElyraAPI.hpp"
 #include "Core/Core.hpp"
-#include "Renderer/VertexArray.hpp"
-#include "Renderer/Buffer.hpp"
+#include "Renderer/Core/VertexArray.hpp"
+#include "Renderer/Core/Buffer.hpp"
 
 namespace Elyra {
 

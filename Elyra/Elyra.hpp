@@ -11,23 +11,23 @@
 
 #include "UI/UI.hpp"
 
-#include "ECS/SceneManager.hpp"
-#include "ECS/Scene.hpp"
+#include "Scene/SceneManager.hpp"
+#include "Scene/Scene.hpp"
+
+#include "Renderer/Camera/OrthographicCamera.hpp"
+#include "Renderer/Camera/PerspectiveCameraController.hpp"
+
 #include "ECS/Entity.hpp"
 #include "ECS/Component.hpp"
 
 #include "Renderer/Mesh/Mesh.hpp"
 #include "Renderer/Mesh/Primitives.hpp"
 
-#include "Renderer/Buffer.hpp"
-#include "Renderer/VertexArray.hpp"
+#include "Renderer/Shader/Shader.hpp"
+#include "Renderer/Shader/ShaderLibrary.hpp"
 
-#include "Renderer/Shader.hpp"
-#include "Renderer/ShaderLibrary.hpp"
-
-#include "Renderer/Renderer.hpp"
-#include "Renderer/RendererAPI.hpp"
-#include "Renderer/RenderCommand.hpp"
-
-#include "Renderer/Camera/OrthographicCamera.hpp"
-#include "Renderer/Camera/PerspectiveCameraController.hpp"
+#include "Renderer/Core/Buffer.hpp"
+#include "Renderer/Core/VertexArray.hpp"
+#include "Renderer/Core/Renderer.hpp"
+#include "Renderer/Core/RendererAPI.hpp"
+#include "Renderer/Core/RenderCommand.hpp"

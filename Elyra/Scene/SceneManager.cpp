@@ -1,4 +1,4 @@
-#include "SceneManager.hpp"
+#include "Scene/SceneManager.hpp"
 
 namespace Elyra {
 

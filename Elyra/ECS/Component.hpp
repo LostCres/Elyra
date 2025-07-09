@@ -4,7 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "ElyraAPI.hpp"
 #include "Renderer/Mesh/Mesh.hpp"
-#include "Renderer/Shader.hpp"
+#include "Renderer/Shader/Shader.hpp"
+
 
 namespace Elyra {
 
@@ -33,6 +34,9 @@ namespace Elyra {
                  * glm::scale(glm::mat4(1.0f), Scale);
         }
     };
+
+    
+
 
     struct MeshComponent {
         std::shared_ptr<Mesh> MeshData;
