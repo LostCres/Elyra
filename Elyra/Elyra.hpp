@@ -20,6 +20,8 @@
 
 #include "Renderer/Material/Material.hpp"
 
+#include "Renderer/Texture/Texture.hpp"
+
 #include "Renderer/Camera/OrthographicCamera.hpp"
 #include "Renderer/Camera/PerspectiveCameraController.hpp"
 
@@ -28,6 +30,7 @@
 
 #include "Renderer/Shader/Shader.hpp"
 #include "Renderer/Shader/ShaderLibrary.hpp"
+#include "Renderer/Shader/UniformSet.hpp"
 
 #include "Renderer/Core/Buffer.hpp"
 #include "Renderer/Core/VertexArray.hpp"

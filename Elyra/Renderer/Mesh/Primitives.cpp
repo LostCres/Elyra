@@ -10,33 +10,59 @@ Ref<Mesh> Cube(float width, float height, float depth) {
     const float h = height * 0.5f;
     const float d = depth * 0.5f;
 
-    std::vector<float> vertices = {
-        // Front face
-        -w, -h,  d,   0, 0, 1,    0, 0,
-         w, -h,  d,   0, 0, 1,    1, 0,
-         w,  h,  d,   0, 0, 1,    1, 1,
-        -w,  h,  d,   0, 0, 1,    0, 1,
-        // Back face
-        -w, -h, -d,   0, 0, -1,   1, 0,
+     std::vector<float> vertices = {
+        // Front
+        -w, -h,  d,   0, 0, 1,   0, 0,
+         w, -h,  d,   0, 0, 1,   1, 0,
+         w,  h,  d,   0, 0, 1,   1, 1,
+        -w,  h,  d,   0, 0, 1,   0, 1,
+
+        // Back
          w, -h, -d,   0, 0, -1,   0, 0,
+        -w, -h, -d,   0, 0, -1,   1, 0,
+        -w,  h, -d,   0, 0, -1,   1, 1,
          w,  h, -d,   0, 0, -1,   0, 1,
-        -w,  h, -d,   0, 0, -1,   1, 1
+
+        // Left
+        -w, -h, -d,  -1, 0, 0,   0, 0,
+        -w, -h,  d,  -1, 0, 0,   1, 0,
+        -w,  h,  d,  -1, 0, 0,   1, 1,
+        -w,  h, -d,  -1, 0, 0,   0, 1,
+
+        // Right
+         w, -h,  d,   1, 0, 0,   0, 0,
+         w, -h, -d,   1, 0, 0,   1, 0,
+         w,  h, -d,   1, 0, 0,   1, 1,
+         w,  h,  d,   1, 0, 0,   0, 1,
+
+        // Top
+        -w,  h,  d,   0, 1, 0,   0, 0,
+         w,  h,  d,   0, 1, 0,   1, 0,
+         w,  h, -d,   0, 1, 0,   1, 1,
+        -w,  h, -d,   0, 1, 0,   0, 1,
+
+        // Bottom
+        -w, -h, -d,   0, -1, 0,   0, 0,
+         w, -h, -d,   0, -1, 0,   1, 0,
+         w, -h,  d,   0, -1, 0,   1, 1,
+        -w, -h,  d,   0, -1, 0,   0, 1
     };
 
     std::vector<uint32_t> indices = {
-        // Front
+        // Front face
         0, 1, 2, 2, 3, 0,
-        // Back
+        // Back face
         4, 5, 6, 6, 7, 4,
-        // Left
-        4, 0, 3, 3, 7, 4,
-        // Right
-        1, 5, 6, 6, 2, 1,
-        // Top
-        3, 2, 6, 6, 7, 3,
-        // Bottom
-        4, 5, 1, 1, 0, 4
+        // Left face
+        8, 9,10,10,11, 8,
+        // Right face
+       12,13,14,14,15,12,
+        // Top face
+       16,17,18,18,19,16,
+        // Bottom face
+       20,21,22,22,23,20
     };
+
 
     return Mesh::Create(vertices, indices);
 }

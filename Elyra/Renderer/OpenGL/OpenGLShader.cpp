@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 #include "Core/Log.hpp"
+#include "OpenGLShader.hpp"
 
 namespace Elyra {
 
@@ -186,7 +187,12 @@ namespace Elyra {
         UploadUniformFloat(name, value);
     }
 
-    void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value) {
+    void OpenGLShader::SetBool(const std::string &name, bool value)
+    {
+        UploadUniformBool(name, value);
+    }
+    void OpenGLShader::SetFloat3(const std::string &name, const glm::vec3 &value)
+    {
         UploadUniformFloat3(name, value);
     }
 
@@ -206,6 +212,12 @@ namespace Elyra {
     void OpenGLShader::UploadUniformFloat(const std::string& name, float value) {
         GLint location = glGetUniformLocation(m_RendererID, name.c_str());
         glUniform1f(location, value);
+    }
+
+    void OpenGLShader::UploadUniformBool(const std::string &name, bool value)
+    {
+        GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+        glUniform1i(location, static_cast<int>(value));
     }
 
     void OpenGLShader::UploadUniformFloat3(const std::string& name, const glm::vec3& value) {

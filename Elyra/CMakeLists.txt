@@ -37,6 +37,7 @@ file(GLOB_RECURSE ELYRA_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Core/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Shader/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Material/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Texture/*.cpp
 )
 
 add_library(Elyra SHARED ${ELYRA_SRC})
@@ -51,7 +52,7 @@ target_include_directories(Elyra PUBLIC
     ${CMAKE_SOURCE_DIR}/vendor/glfw/include
     ${CMAKE_SOURCE_DIR}/vendor/spdlog/include
     ${CMAKE_SOURCE_DIR}/vendor/glm/include
-    ${CMAKE_SOURCE_DIR}/vendor/entt/
+    ${CMAKE_SOURCE_DIR}/vendor/stb_image
 )
 
 # Link directories for glfw

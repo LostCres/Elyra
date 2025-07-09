@@ -1,6 +1,8 @@
 #pragma once
 #include "ElyraAPI.hpp"
 #include "Renderer/Shader/Shader.hpp"
+#include "Renderer/Texture/Texture.hpp"
+#include "Renderer/Shader/UniformSet.hpp"
 #include "Elyrapch.hpp"
 #include <glm/glm.hpp>
 
@@ -24,7 +26,11 @@ public:
     void Set(const std::string& name, float value);
     void Set(const std::string& name, const glm::vec3& value);
     void Set(const std::string& name, const glm::vec4& value);
-    //void SetTexture(const std::string& name, const Ref<Texture>& texture);
+    void SetTexture(const std::string& name, const Ref<Texture2D>& texture);
+
+    static void SetGlobalUniforms(const Ref<UniformSet>& uniforms); //for global uniforms
+
+    bool HasTexture(const std::string& name) const;
 
     void ApplyProperties() const;
 
@@ -32,10 +38,12 @@ private:
     Ref<Shader> m_Shader;
     static Ref<Shader> s_DefaultShader;
 
+    static Ref<UniformSet> s_GlobalUniforms;
+
     std::unordered_map<std::string, float> m_Floats;
     std::unordered_map<std::string, glm::vec3> m_Vec3s;
     std::unordered_map<std::string, glm::vec4> m_Vec4s;
-    //std::unordered_map<std::string, Ref<Texture>> m_Textures;
+    std::unordered_map<std::string, Ref<Texture2D>> m_Textures;
 };
 
 }
