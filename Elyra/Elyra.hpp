@@ -8,6 +8,8 @@
 #include "Events/KeyEvent.hpp"
 #include "Events/MouseEvent.hpp"
 
+#include "ImGui/ImGuiManager.hpp"
+
 #include "Renderer/Buffer.hpp"
 #include "Renderer/VertexArray.hpp"
 #include "Renderer/Renderer.hpp"

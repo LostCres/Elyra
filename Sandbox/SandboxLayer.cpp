@@ -54,6 +54,15 @@ void SandboxLayer::OnDetach() {
     // Cleanup if needed
 }
 
+void SandboxLayer::OnImGuiRender(ImGuiContext* context){
+
+    ImGui::SetCurrentContext(context);
+    
+    ImGui::Begin("Sandbox GUI");
+    ImGui::Text("Hello from SandboxLayer!");
+    ImGui::End();
+}
+
 void SandboxLayer::OnUpdate(Elyra::TimeStep ts) {
     Elyra::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1.0f});
     Elyra::RenderCommand::Clear();

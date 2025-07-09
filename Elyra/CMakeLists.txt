@@ -1,3 +1,19 @@
+# --- ImGui (static, no PCH) ---
+add_library(ImGui STATIC
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/imgui.cpp
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/imgui_draw.cpp
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/imgui_widgets.cpp
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/imgui_tables.cpp
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/imgui_demo.cpp
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/backends/imgui_impl_glfw.cpp
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/backends/imgui_impl_opengl3.cpp
+)
+
+target_include_directories(ImGui PUBLIC
+    ${CMAKE_SOURCE_DIR}/vendor/imgui
+    ${CMAKE_SOURCE_DIR}/vendor/imgui/backends
+    ${CMAKE_SOURCE_DIR}/vendor/glfw/include
+)
 # ---- glad (static, no PCH) ----build and added 
 add_library(glad STATIC ${CMAKE_SOURCE_DIR}/vendor/glad/src/glad.c)
 target_include_directories(glad PUBLIC ${CMAKE_SOURCE_DIR}/vendor/glad/include)
@@ -14,6 +30,7 @@ file(GLOB_RECURSE ELYRA_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Camera/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Layer/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Input/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/ImGui/*.cpp
 )
 
 add_library(Elyra SHARED ${ELYRA_SRC})
@@ -37,6 +54,7 @@ target_link_directories(Elyra PRIVATE
 
 # Link libraries
 target_link_libraries(Elyra
+    ImGui
     glad
     ${CMAKE_SOURCE_DIR}/vendor/glfw/lib/libglfw3dll.a
     opengl32

@@ -6,6 +6,7 @@
 #include "Window.hpp"
 #include "Layer/LayerStack.hpp"
 #include "Input/Input.hpp"
+#include "ImGui/ImGuiManager.hpp"
 
 namespace Elyra {
 
@@ -27,6 +28,7 @@ namespace Elyra {
 
     private:
         Scope<Window> m_Window;
+
         bool m_Running = true;
         LayerStack m_LayerStack;
 

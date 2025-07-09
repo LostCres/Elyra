@@ -10,12 +10,15 @@ namespace Elyra {
 
     Application::Application(const WindowProps& props) {
         Log::Init();
+
         s_Instance = this;
 
         m_Window = Window::Create(props);
         m_Window->SetEventCallback([this](Event& e) {
             OnEvent(e);
         });
+        
+        ImGuiManager::Init(static_cast<GLFWwindow*>(m_Window->GetNativeWindow()));
     }
 
     Application::~Application() = default;
@@ -33,8 +36,6 @@ namespace Elyra {
             TimeStep deltaTime = currentTime - lastTime;
             lastTime = currentTime;
 
-            //EL_CORE_INFO("Delta Time: {0} ms", deltaTime.GetMilliseconds());
-
             if (Elyra::Input::IsKeyPressed(Elyra::Key::Key_Escape)) {
                 m_Running = false;
                 EL_CORE_INFO("Escape pressed: Closing Application.");
@@ -43,6 +44,12 @@ namespace Elyra {
             for (auto& layer : m_LayerStack) {
                 layer->OnUpdate(deltaTime);
             }
+
+            ImGuiManager::BeginFrame();
+            ImGuiContext* context = ImGui::GetCurrentContext();
+            for (auto& layer : m_LayerStack)
+                layer->OnImGuiRender(context);
+            ImGuiManager::EndFrame();
 
             m_Window->OnUpdate();
         }
