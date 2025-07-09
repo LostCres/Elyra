@@ -1,6 +1,6 @@
 #include "OpenGLVertexArray.hpp"
 #include <glad/glad.h>
-#include <cassert>
+#include "Core/Log.hpp"
 
 namespace Elyra {
 
@@ -18,8 +18,7 @@ namespace Elyra {
             case ShaderDataType::Int4:    return GL_INT;
             case ShaderDataType::Bool:    return GL_BOOL;
         }
-
-        assert(false && "Unknown ShaderDataType!");
+        EL_CORE_ASSERT(false,"Unknown ShaderDataType!");
         return 0;
     }
 
@@ -40,7 +39,7 @@ namespace Elyra {
     }
 
     void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) {
-        assert(vertexBuffer->GetLayout().GetElements().size() && "Vertex Buffer has no layout!");
+        EL_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(),"Vertex Buffer has no layout!");
 
         Bind();
         vertexBuffer->Bind();

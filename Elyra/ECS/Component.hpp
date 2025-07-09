@@ -1,8 +1,7 @@
 #pragma once
+#include "Elyrapch.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <string>
-#include <memory>
 #include "ElyraAPI.hpp"
 #include "Renderer/Mesh/Mesh.hpp"
 #include "Renderer/Shader.hpp"
@@ -44,11 +43,11 @@ namespace Elyra {
     };
 
     struct MaterialComponent {
-        std::shared_ptr<Shader> s_Shader;
+        std::shared_ptr<Shader> ShaderData;
 
         MaterialComponent() = default;
         MaterialComponent(const std::shared_ptr<Shader>& shader)
-            : s_Shader(shader) {}
+            : ShaderData(shader) {}
     };
     
 }

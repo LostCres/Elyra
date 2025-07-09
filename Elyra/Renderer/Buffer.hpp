@@ -1,10 +1,8 @@
 #pragma once
+#include "Elyrapch.hpp"
 #include "ElyraAPI.hpp"
 #include "Core/Core.hpp"
-#include <string>
-#include <vector>
-#include <cstdint>
-#include <cassert>
+#include "Core/Log.hpp"
 
 namespace Elyra {
 
@@ -30,8 +28,7 @@ namespace Elyra {
             case ShaderDataType::Int4:    return 4 * 4;
             case ShaderDataType::Bool:    return 1;
         }
-
-        assert(false && "Unknown ShaderDataType!");
+        EL_CORE_ASSERT(false,"Unknown ShaderDataType!");
         return 0;
     }
 
@@ -62,7 +59,7 @@ namespace Elyra {
                 case ShaderDataType::Bool:    return 1;
             }
 
-            assert(false && "Unknown ShaderDataType!");
+            EL_CORE_ASSERT(false,"Unknown ShaderDataType!");
             return 0;
         }
     };

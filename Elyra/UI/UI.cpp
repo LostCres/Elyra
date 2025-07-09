@@ -1,7 +1,6 @@
 #include "UI/UI.hpp"
 #include "Elyrapch.hpp"
 #include <imgui.h>
-#include <cstring> 
 
 namespace Elyra {
 

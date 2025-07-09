@@ -7,6 +7,7 @@
 
 #include "Events/KeyEvent.hpp"
 #include "Events/MouseEvent.hpp"
+#include "Events/ApplicationEvent.hpp"
 
 #include "UI/UI.hpp"
 
@@ -28,5 +29,3 @@
 
 #include "Renderer/Camera/OrthographicCamera.hpp"
 #include "Renderer/Camera/PerspectiveCameraController.hpp"
-
-#include "Assets/CubeMesh.hpp"

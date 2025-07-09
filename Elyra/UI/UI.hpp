@@ -1,6 +1,6 @@
 #pragma once
+#include "Elyrapch.hpp"
 #include "ElyraAPI.hpp"
-#include <string>
 
 namespace Elyra {
 

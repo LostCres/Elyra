@@ -37,14 +37,14 @@ void ECSrender::OnAttach() {
         3, 2, 6, 6, 7, 3
     };
     auto cubeMesh = Elyra::Mesh::Create(cubeVertices, cubeIndices);   
-    auto cubeShader = Elyra::Shader::Create("shaders/Cube.vert","shaders/Cube.frag");
+    auto cubeShader = Elyra::Shader::Create("Assets/shaders/Cube.vert","Assets/shaders/Cube.frag");
 
     // Simulate ECS: create a cube entity with components
     m_Scene = std::make_shared<Elyra::Scene>();
     auto cube = m_Scene->CreateEntity("Cube");
 
     cube.GetComponent<Elyra::MeshComponent>().MeshData      = cubeMesh;
-    cube.GetComponent<Elyra::MaterialComponent>().s_Shader  = cubeShader;
+    cube.GetComponent<Elyra::MaterialComponent>().ShaderData  = cubeShader;
     cube.GetComponent<Elyra::TransformComponent>().Position = { 0.0f, 0.0f, 0.0f };
 }
 
@@ -73,17 +73,13 @@ void ECSrender::OnUpdate(Elyra::TimeStep ts) {
             auto& matComp   = entity.GetComponent<Elyra::MaterialComponent>();
 
             Elyra::Renderer::Submit(
-                matComp.s_Shader,
+                matComp.ShaderData,
                 meshComp.MeshData->GetVertexArray(),
                 transform.GetTransform()
             );
         }
     }
 
-    // if (auto cube = m_Scene->GetEntityByName("Cube")) {
-    //     auto& transform = cube.GetComponent<Elyra::TransformComponent>();
-    //     transform.Rotation.y += ts * glm::radians(90.0f);
-    // }
     m_Scene->GetEntityByName("Cube").GetComponent<Elyra::TransformComponent>().Rotation.y += ts * glm::radians(90.0f);
 
     Elyra::Renderer::EndScene();
@@ -91,6 +87,7 @@ void ECSrender::OnUpdate(Elyra::TimeStep ts) {
 
 void ECSrender::OnEvent(Elyra::Event& event) {
     m_CameraController.OnEvent(event);  // <--- forward events
+    
 }
 
 void ECSrender::OnUIRender()

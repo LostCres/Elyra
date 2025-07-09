@@ -1,13 +1,9 @@
 #pragma once
 
 #include "ElyraAPI.hpp"
-#include <unordered_map>
-#include <typeindex>
-#include <memory>
+#include "Elyrapch.hpp"
+#include "Core/Log.hpp"
 #include <cassert>
-#include <string>
-#include <type_traits>
-#include <utility>
 #include "ECS/Entity.hpp"
 #include "ECS/Component.hpp"
 
@@ -27,19 +23,19 @@ class ComponentPool final : public IComponentPool {
 public:
     T& Emplace(EntityID id, T&& component) {
         auto [it, inserted] = m_Data.emplace(id, std::move(component));
-        assert(inserted && "Component already exists on entity!");
+        EL_CORE_ASSERT(inserted,"Component already exists on entity!");
         return it->second;
     }
 
     template<typename... Args>
     T& Emplace(EntityID id, Args&&... args) {
         auto [it, inserted] = m_Data.emplace(id, T(std::forward<Args>(args)...));
-        assert(inserted && "Component already exists on entity!");
+        EL_CORE_ASSERT(inserted,"Component already exists on entity!");
         return it->second;
     }
 
     T& Get(EntityID id) {
-        assert(m_Data.find(id) != m_Data.end() && "Component missing on entity!");
+        EL_CORE_ASSERT(m_Data.find(id) != m_Data.end(),"Component missing on entity!");
         return m_Data.at(id);
     }
 
@@ -112,14 +108,14 @@ private:
     template<typename T>
     ComponentPool<T>& GetPool() {
         auto key = std::type_index(typeid(T));
-        assert(m_Pools.find(key) != m_Pools.end() && "Component pool does not exist!");
+        EL_CORE_ASSERT(m_Pools.find(key) != m_Pools.end(),"Component pool does not exist!");
         return static_cast<ComponentPool<T>&>(*m_Pools.at(key));
     }
 
     template<typename T>
     const ComponentPool<T>& GetPoolConst() const {
         auto key = std::type_index(typeid(T));
-        assert(m_Pools.find(key) != m_Pools.end() && "Component pool does not exist!");
+        EL_CORE_ASSERT(m_Pools.find(key) != m_Pools.end(),"Component pool does not exist!");
         return static_cast<const ComponentPool<T>&>(*m_Pools.at(key));
     }
 

@@ -1,8 +1,8 @@
 #pragma once
+#include "Elyrapch.hpp"
 #include "ElyraAPI.hpp"
 #include "Core/Core.hpp"
 #include "Renderer/Shader.hpp"
-#include <unordered_map>
 
 namespace Elyra {
 

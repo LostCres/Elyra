@@ -1,7 +1,7 @@
 #pragma once
+#include "Elyrapch.hpp"
 #include "ElyraAPI.hpp"
 #include "Core/Core.hpp"
-#include <string>
 #include <glm/glm.hpp>
 
 namespace Elyra {

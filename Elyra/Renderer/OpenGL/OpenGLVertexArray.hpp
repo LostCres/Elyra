@@ -1,7 +1,6 @@
 #pragma once
-
+#include "Elyrapch.hpp"
 #include "Renderer/VertexArray.hpp"
-#include <vector>
 
 namespace Elyra {
 

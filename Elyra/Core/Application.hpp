@@ -1,7 +1,4 @@
 #pragma once
-
-#include <glad/glad.h>
-
 #include "ElyraAPI.hpp"
 #include "Window.hpp"
 #include "Layer/LayerStack.hpp"

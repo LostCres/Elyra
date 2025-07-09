@@ -1,7 +1,5 @@
-#include "Elyrapch.hpp"
 #include "OpenGLShader.hpp"
 #include <glad/glad.h>
-#include <fstream>
 #include <glm/gtc/type_ptr.hpp>
 #include "Core/Log.hpp"
 
@@ -10,7 +8,7 @@ namespace Elyra {
     static GLenum ShaderTypeFromString(const std::string& type) {
         if (type == "vertex")   return GL_VERTEX_SHADER;
         if (type == "fragment" || type == "pixel") return GL_FRAGMENT_SHADER;
-        EL_CORE_ASSERT("Unknown shader type: {0}", type);
+        EL_CORE_ASSERT(false,"Unknown shader type: {0}", type);
         return 0;
     }
 
@@ -25,7 +23,7 @@ namespace Elyra {
             in.read(&source[0], size);
             in.close();
         } else {
-            EL_CORE_ASSERT("Failed to open shader file: {0}", filepath);
+            EL_CORE_ASSERT(false,"Failed to open shader file: {0}", filepath);
         }
 
         auto lastSlash = filepath.find_last_of("/\\");
@@ -55,7 +53,7 @@ namespace Elyra {
                 in.read(&result[0], size);
                 in.close();
             } else {
-                EL_CORE_ASSERT("Failed to open shader file: {0}", path);
+                EL_CORE_ASSERT(false,"Failed to open shader file: {0}", path);
             }
             return result;
         };
