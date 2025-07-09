@@ -2,6 +2,7 @@
 #include "Application.hpp"
 #include "TimeStep.hpp"
 #include "Log.hpp"
+#include "Input/Input.hpp"
 
 Elyra::Application* Elyra::Application::s_Instance = nullptr;
 
@@ -10,6 +11,7 @@ namespace Elyra {
     Application::Application(const WindowProps& props) {
         Log::Init();
         s_Instance = this;
+
         m_Window = Window::Create(props);
         m_Window->SetEventCallback([this](Event& e) {
             OnEvent(e);
@@ -51,9 +53,14 @@ namespace Elyra {
     void Application::OnEvent(Event& e) {
         EL_CORE_TRACE("Event: {}", e.ToString());
 
+        // Forward input-related events to the Input system
+        Input::OnEvent(e);   
+
+        // Handle global engine-level events
         if (e.GetEventType() == EventType::WindowClose)
             m_Running = false;
-        
+
+        // Propagate to layers (in reverse order)
         for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
             (*--it)->OnEvent(e);
             if (e.Handled) break;

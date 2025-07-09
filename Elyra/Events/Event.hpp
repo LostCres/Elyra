@@ -1,6 +1,7 @@
 #pragma once
 #include "Elyrapch.hpp"
 #include "ElyraAPI.hpp"
+#include "Core/KeyCodes.hpp"
 
 namespace Elyra {
 
@@ -11,13 +12,6 @@ namespace Elyra {
         MouseButtonPressed, MouseButtonReleased,
          MouseMoved, MouseScrolled
     };
-
-    enum class MouseButton {
-        Left = 0,
-        Right = 1,
-        Middle = 2,
-    };
-
 
     enum EventCategory {
         None = 0,

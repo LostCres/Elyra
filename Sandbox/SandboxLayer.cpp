@@ -58,6 +58,10 @@ void SandboxLayer::OnUpdate(Elyra::TimeStep ts) {
     Elyra::RenderCommand::SetClearColor({0.1f, 0.1f, 0.1f, 1.0f});
     Elyra::RenderCommand::Clear();
 
+    if (Elyra::Input::IsKeyPressed(Elyra::Key_W)) {
+        EL_WARN("TAB key is pressed!");
+    }
+
     Elyra::Renderer::BeginScene(m_Camera);
 
     glm::mat4 transform = glm::mat4(1.0f);
@@ -67,5 +71,15 @@ void SandboxLayer::OnUpdate(Elyra::TimeStep ts) {
 }
 
 void SandboxLayer::OnEvent(Elyra::Event& event) {
-    // Event handling if needed
+    if (event.GetEventType() == Elyra::EventType::KeyPressed)
+    {
+        Elyra::KeyPressedEvent& keyEvent = static_cast<Elyra::KeyPressedEvent&>(event);
+        EL_INFO("KeyPressed: {}",static_cast<int>(keyEvent.GetKeyCode()));
+    }
+
+    if (event.GetEventType() == Elyra::EventType::MouseButtonPressed)
+    {
+        Elyra::MouseButtonPressedEvent& mouseEvent = static_cast<Elyra::MouseButtonPressedEvent&>(event);
+        EL_INFO("MouseButtonPressed: {}", static_cast<int>(mouseEvent.GetMouseButton()));
+    }
 }

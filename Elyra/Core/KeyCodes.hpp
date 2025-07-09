@@ -1,8 +1,14 @@
 #pragma once
 
 namespace Elyra {
+
+    enum MouseButton {
+        Left = 0,
+        Right = 1,
+        Middle = 2,
+        EL_MOUSE_BUTTON_LAST=3
+    };
     
-    // Key codes (mapped to GLFW)
     enum Key {
         Key_Space      = 32,
         Key_Apostrophe = 39,  // '
@@ -80,6 +86,7 @@ namespace Elyra {
         Key_F10        = 299,
         Key_F11        = 300,
         Key_F12        = 301,
+        EL_KEY_LAST    = 302
         // Add more as needed...
     };
 
