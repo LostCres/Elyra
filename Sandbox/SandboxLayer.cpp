@@ -16,7 +16,10 @@ void SandboxLayer::OnDetach() {
 }
 
 void SandboxLayer::OnUpdate(Elyra::TimeStep ts) {
-    
+    auto scene = Elyra::SceneManager::GetActiveScene();
+    if (scene) {
+        scene->OnUpdate(ts);
+    }
 }
 
 void SandboxLayer::OnEvent(Elyra::Event& event) {

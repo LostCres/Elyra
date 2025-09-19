@@ -1,4 +1,5 @@
 #include "ECSrender.hpp"
+#include <glm/glm.hpp>
  #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -12,7 +13,7 @@ void ECSrender::OnAttach() {
 
     m_Scene = Elyra::CreateRef<Elyra::Scene>();
     Elyra::SceneManager::SetActiveScene(m_Scene);
-    Elyra::Material::SetDefaultShader(Elyra::Shader::Create("Assets/shaders/vertex.glsl","Assets/shaders/fragment.glsl"));
+    Elyra::Material::SetDefaultShader(Elyra::Shader::Create("Default","Assets/shaders/vertex.glsl","Assets/shaders/fragment.glsl"));
 
     auto globalUniforms = Elyra::UniformSet::Create();
     globalUniforms->Set("ambientColor", glm::vec3(0.2f));
@@ -57,6 +58,7 @@ void ECSrender::OnAttach() {
     sphere.AddComponent<Elyra::MeshComponent>().MeshData = sphereMesh;
     sphere.AddComponent<Elyra::MaterialComponent>().MaterialData = material2;
     sphere.GetComponent<Elyra::TransformComponent>().Position = {0.0f, 2.0f,0.0f};
+    sphere.AddComponent<Elyra::ScriptableComponent>().Bind<sphererotate>();//script
 
     auto planeMesh = Elyra::Primitives::Plane(5.0f,5.0f);
     auto plane = m_Scene->CreateEntity("Plane");
@@ -74,7 +76,10 @@ void ECSrender::OnAttach() {
 }
 
 void ECSrender::OnDetach() {
-    // Cleanup if needed
+    if (m_Scene) {
+        m_Scene->DestroyAllEntities();
+        EL_CORE_INFO("All entities destroyed in ECSrender.");
+    }
 }
 
 void ECSrender::OnUpdate(Elyra::TimeStep ts) {
@@ -88,17 +93,24 @@ void ECSrender::OnEvent(Elyra::Event& event) {
 
     if (event.GetEventType() == Elyra::EventType::KeyPressed)
     {
-        if(static_cast<Elyra::KeyPressedEvent&>(event).GetKeyCode()==Elyra::Key_M)
+        auto& keyEvent = static_cast<Elyra::KeyPressedEvent&>(event);
+        if(keyEvent.GetKeyCode() == Elyra::Key_M)
         {
             auto cam1 = m_Scene->GetEntityByName("cam1");
             auto cam2 = m_Scene->GetEntityByName("cam2");
+            
+            if (!cam1 || !cam2) {
+                EL_CORE_ERROR("Failed to find cameras!");
+                return;
+            }
 
             auto current = m_Scene->GetActiveCamera();
-
-            if (current == cam1)
-                m_Scene->SetActiveCamera(cam2);
-            else
-                m_Scene->SetActiveCamera(cam1);
+            auto next = (current == cam1) ? cam2 : cam1;
+            
+            if (next.HasComponent<Elyra::CameraComponent>()) {
+                m_Scene->SetActiveCamera(next);
+                EL_CORE_INFO("Switched to camera: {}", next.GetComponent<Elyra::TagComponent>().Tag);
+            }
         }           
     }
 }

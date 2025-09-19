@@ -1,12 +1,15 @@
 #include "LayerStack.hpp"
+#include "Core/Log.hpp"
 
 namespace Elyra {
 
     LayerStack::LayerStack() {}
 
     LayerStack::~LayerStack() {
-        for (Layer* layer : m_Layers)
+        std::for_each(m_Layers.begin(), m_Layers.end(), [](Layer* layer) {
             delete layer;
+        });
+        EL_CORE_INFO("LayerStack destroyed.");
     }
 
     void LayerStack::PushLayer(Layer* layer) {

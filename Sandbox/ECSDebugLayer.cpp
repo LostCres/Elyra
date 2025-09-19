@@ -5,6 +5,9 @@ ECSDebugLayer::ECSDebugLayer() : Layer("ECSDebugLayer") {}
 
 void ECSDebugLayer::OnAttach() {
     m_Scene = Elyra::SceneManager::GetActiveScene();
+    if (!m_Scene) {
+        EL_CORE_WARN("No active scene found in ECSDebugLayer.");
+    }
 }
 
 void ECSDebugLayer::OnUpdate(Elyra::TimeStep ts) {

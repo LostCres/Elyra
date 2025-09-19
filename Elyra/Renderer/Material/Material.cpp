@@ -1,4 +1,5 @@
 #include "Renderer/Material/Material.hpp"
+#include "Core/Log.hpp"
 
 namespace Elyra {
 
@@ -7,6 +8,11 @@ namespace Elyra {
     Material::Material()
     {
         m_Shader = s_DefaultShader;
+    }
+
+    Material::~Material() {
+        ClearProperties();
+        EL_CORE_INFO("Material properties cleared.");
     }
 
     Ref<Material> Material::Create() {
@@ -82,5 +88,12 @@ namespace Elyra {
     void Material::SetTexture(const std::string& name, const Ref<Texture2D>& texture) {
         m_Textures[name] = texture;
 
+    }
+
+    void Material::ClearProperties() {
+        m_Floats.clear();
+        m_Vec3s.clear();
+        m_Vec4s.clear();
+        m_Textures.clear();
     }
 }

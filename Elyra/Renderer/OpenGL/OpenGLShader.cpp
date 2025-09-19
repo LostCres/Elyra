@@ -3,6 +3,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Core/Log.hpp"
 #include "OpenGLShader.hpp"
+#include <fstream>
 
 namespace Elyra {
 
@@ -13,19 +14,24 @@ namespace Elyra {
         return 0;
     }
 
-    OpenGLShader::OpenGLShader(const std::string& filepath) {
-        std::ifstream in(filepath, std::ios::in | std::ios::binary);
-        std::string source;
+    std::string OpenGLShader::ReadShaderFile(const std::string& path) {
+        std::ifstream in(path, std::ios::in | std::ios::binary);
+        std::string result;
         if (in) {
             in.seekg(0, std::ios::end);
             size_t size = in.tellg();
-            source.resize(size);
+            result.resize(size);
             in.seekg(0);
-            in.read(&source[0], size);
+            in.read(&result[0], size);
             in.close();
         } else {
-            EL_CORE_ASSERT(false,"Failed to open shader file: {0}", filepath);
+            EL_CORE_ASSERT(false, "Failed to open shader file: {0}", path);
         }
+        return result;
+    }
+
+    OpenGLShader::OpenGLShader(const std::string& filepath) {
+        std::string source = ReadShaderFile(filepath);
 
         auto lastSlash = filepath.find_last_of("/\\");
         lastSlash = (lastSlash == std::string::npos) ? 0 : lastSlash + 1;
@@ -37,51 +43,11 @@ namespace Elyra {
         Compile(shaderSources);
     }
 
-    OpenGLShader::OpenGLShader(const std::string& vertexPath, const std::string& fragmentPath)
-    {
-        std::string vertexSource;
-        std::string fragmentSource;
-
-        // Helper lambda for file loading
-        auto readFile = [](const std::string& path) -> std::string {
-            std::ifstream in(path, std::ios::in | std::ios::binary);
-            std::string result;
-            if (in) {
-                in.seekg(0, std::ios::end);
-                size_t size = in.tellg();
-                result.resize(size);
-                in.seekg(0);
-                in.read(&result[0], size);
-                in.close();
-            } else {
-                EL_CORE_ASSERT(false,"Failed to open shader file: {0}", path);
-            }
-            return result;
-        };
-        
-        std::string filepath = vertexPath;
-        auto lastSlash = filepath.find_last_of("/\\");
-        lastSlash = (lastSlash == std::string::npos) ? 0 : lastSlash + 1;
-        auto lastDot = filepath.rfind('.');
-        auto count = (lastDot == std::string::npos) ? filepath.size() - lastSlash : lastDot - lastSlash;
-        m_Name = filepath.substr(lastSlash, count);
-
-        vertexSource   = readFile(vertexPath);
-        fragmentSource = readFile(fragmentPath);
-
-        std::unordered_map<GLenum, std::string> sources = {
-            {GL_VERTEX_SHADER, vertexSource},
-            {GL_FRAGMENT_SHADER, fragmentSource}
-        };
-        Compile(sources);
-    }
-
-
     OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
         : m_Name(name) {
         std::unordered_map<GLenum, std::string> sources = {
-            {GL_VERTEX_SHADER, vertexSrc},
-            {GL_FRAGMENT_SHADER, fragmentSrc}
+            {GL_VERTEX_SHADER, ReadShaderFile(vertexSrc)},
+            {GL_FRAGMENT_SHADER, ReadShaderFile(fragmentSrc)}
         };
         Compile(sources);
     }
@@ -96,6 +62,35 @@ namespace Elyra {
 
     void OpenGLShader::Unbind() const {
         glUseProgram(0);
+    }
+
+    void OpenGLShader::SetInt(const std::string& name, int value) {
+        UploadUniformInt(name, value);
+    }
+
+    void OpenGLShader::SetBool(const std::string& name, bool value)
+    {
+        UploadUniformBool(name, value);
+    }
+
+    void OpenGLShader::SetFloat(const std::string& name, float value)
+    {
+        UploadUniformFloat(name, value);
+    }
+
+    void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value)
+    {
+        UploadUniformFloat3(name, value);
+    }
+
+    void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value)
+    {
+        UploadUniformFloat4(name, value);
+    }
+
+    void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& value)
+    {
+        UploadUniformMat4(name, value);
     }
 
     std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source) {
@@ -125,12 +120,19 @@ namespace Elyra {
 
     void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& shaderSources) {
         GLuint program = glCreateProgram();
+        EL_CORE_ASSERT(shaderSources.size() <= 2, "Only supporting 2 shaders for now");
         std::vector<GLenum> shaderIDs;
+        shaderIDs.reserve(shaderSources.size());
 
         for (auto& [type, source] : shaderSources) {
             GLuint shader = glCreateShader(type);
-            const char* src = source.c_str();
-            glShaderSource(shader, 1, &src, nullptr);
+            const GLchar* sourceCStr = source.c_str();
+            glShaderSource(shader, 1, &sourceCStr, nullptr);
+
+            EL_CORE_INFO("Compiling shader: {0}", 
+                type == GL_VERTEX_SHADER ? "vertex" : 
+                type == GL_FRAGMENT_SHADER ? "fragment" : "unknown");
+                
             glCompileShader(shader);
 
             GLint isCompiled = 0;
@@ -141,11 +143,12 @@ namespace Elyra {
 
                 std::vector<GLchar> infoLog(maxLength);
                 glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+                
                 glDeleteShader(shader);
-
+                
+                EL_CORE_ERROR("Shader compilation failure!");
                 EL_CORE_ERROR("{0}", infoLog.data());
-                EL_CORE_ASSERT(false, "Shader compilation failure");
-                return;
+                break;
             }
 
             glAttachShader(program, shader);
@@ -179,31 +182,6 @@ namespace Elyra {
         m_RendererID = program;
     }
 
-    void OpenGLShader::SetInt(const std::string& name, int value) {
-        UploadUniformInt(name, value);
-    }
-
-    void OpenGLShader::SetFloat(const std::string& name, float value) {
-        UploadUniformFloat(name, value);
-    }
-
-    void OpenGLShader::SetBool(const std::string &name, bool value)
-    {
-        UploadUniformBool(name, value);
-    }
-    void OpenGLShader::SetFloat3(const std::string &name, const glm::vec3 &value)
-    {
-        UploadUniformFloat3(name, value);
-    }
-
-    void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value) {
-        UploadUniformFloat4(name, value);
-    }
-
-    void OpenGLShader::SetMat4(const std::string& name, const glm::mat4& value) {
-        UploadUniformMat4(name, value);
-    }
-
     void OpenGLShader::UploadUniformInt(const std::string& name, int value) {
         GLint location = glGetUniformLocation(m_RendererID, name.c_str());
         glUniform1i(location, value);
@@ -235,4 +213,4 @@ namespace Elyra {
         glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
     }
 
-}
+} // namespace Elyra

@@ -22,9 +22,8 @@ namespace Elyra {
         virtual void SetMat4(const std::string& name, const glm::mat4& value) = 0;
         virtual void SetBool(const std::string& name, bool value) = 0;
 
-        static Ref<Shader> Create(const std::string& filepath);
-        static Ref<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
-        static Ref<Shader> Create(const std::string& vertexPath, const std::string& fragmentPath);
+        static Ref<Shader> Create(const std::string& filepath); // For file-based creation
+        static Ref<Shader> Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc); // For source-based creation
     };
 
-}
+} // namespace Elyra

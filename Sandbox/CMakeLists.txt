@@ -30,6 +30,6 @@ add_custom_command(TARGET Sandbox POST_BUILD
         "${CMAKE_SOURCE_DIR}/vendor/glfw/lib/glfw3.dll"
         $<TARGET_FILE_DIR:Sandbox>
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/Elyra/Assets"
+        "${CMAKE_SOURCE_DIR}/Sandbox/Assets"
         $<TARGET_FILE_DIR:Sandbox>/Assets
 )

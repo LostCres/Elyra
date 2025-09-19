@@ -13,9 +13,11 @@ class Entity; // Forward declare only — no full include needed
 class ELYRA_API Scene {
 public:
     Scene() = default;
+    ~Scene(); // Explicitly declare the destructor
 
     Entity CreateEntity(const std::string& name = "Entity");
     void DestroyEntity(Entity entity);
+    void DestroyAllEntities();
 
     template<typename T, typename... Args>
     T& AddComponent(Entity entity, Args&&... args);

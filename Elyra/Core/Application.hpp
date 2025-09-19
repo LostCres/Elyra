@@ -17,6 +17,7 @@ namespace Elyra {
 
         void PushLayer(Layer* layer);
         void PushOverlay(Layer* overlay);
+        void ReloadLayers();
 
         Window& GetWindow() { return *m_Window; }
 

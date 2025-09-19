@@ -67,21 +67,21 @@ Ref<Mesh> Cube(float width, float height, float depth) {
     return Mesh::Create(vertices, indices);
 }
 
-Ref<Mesh> Plane(float width, float length) {
+std::pair<std::vector<float>, std::vector<uint32_t>> GeneratePlaneData(float width, float length) {
     const float w = width * 0.5f;
     const float l = length * 0.5f;
     std::vector<float> vertices = {
-        // Position         // Normal       // UV
         -w, 0.0f, -l,   0, 1, 0,     0, 0,
          w, 0.0f, -l,   0, 1, 0,     1, 0,
          w, 0.0f,  l,   0, 1, 0,     1, 1,
         -w, 0.0f,  l,   0, 1, 0,     0, 1
     };
+    std::vector<uint32_t> indices = { 0, 1, 2, 2, 3, 0 };
+    return {vertices, indices};
+}
 
-    std::vector<uint32_t> indices = {
-        0, 1, 2, 2, 3, 0
-    };
-
+Ref<Mesh> Plane(float width, float length) {
+    auto [vertices, indices] = GeneratePlaneData(width, length);
     return Mesh::Create(vertices, indices);
 }
 

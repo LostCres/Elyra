@@ -8,6 +8,7 @@ namespace Elyra {
 
 struct IComponentPool {
     virtual ~IComponentPool() = default;
+    virtual void Remove(EntityID id) = 0;
 };
 
 template<typename T>
@@ -18,7 +19,7 @@ public:
 
     T& Get(EntityID id);
     bool Has(EntityID id) const;
-    void Remove(EntityID id);
+    void Remove(EntityID id) override;
 
 private:
     std::unordered_map<EntityID, T> m_Data;
@@ -37,6 +38,8 @@ public:
 
     template<typename T>
     void RemoveComponent(EntityID id);
+
+    void RemoveAllComponents(Entity entity);
 
 private:
     std::unordered_map<std::type_index, std::unique_ptr<IComponentPool>> m_Pools;

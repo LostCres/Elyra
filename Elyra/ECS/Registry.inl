@@ -74,4 +74,11 @@ const ComponentPool<T>& Registry::GetPoolConst() const {
     return static_cast<const ComponentPool<T>&>(*m_Pools.at(key));
 }
 
+inline void Registry::RemoveAllComponents(Entity entity) {
+    EntityID id = entity.GetID();
+    for (auto& [type, pool] : m_Pools) {
+        pool->Remove(id);  // Now calls through virtual interface
+    }
+}
+
 } // namespace Elyra

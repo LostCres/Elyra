@@ -30,6 +30,11 @@ namespace Elyra {
 
     void Scene::OnViewportResize(uint32_t width, uint32_t height)
     {
+        if (width == 0 || height == 0) {
+            EL_CORE_WARN("Invalid viewport dimensions: {}x{}", width, height);
+            return;
+        }
+        
         m_ViewportWidth = width;
         m_ViewportHeight = height;
 
@@ -38,8 +43,26 @@ namespace Elyra {
 
 
     void Scene::DestroyEntity(Entity entity) {
-        // TODO: Implement removal logic if needed
-        (void)entity;
+        auto it = std::find(m_Entities.begin(), m_Entities.end(), entity.GetID());
+        if (it != m_Entities.end()) {
+            // Remove all components
+            m_Registry.RemoveAllComponents(entity);
+            // Remove from entities list
+            m_Entities.erase(it);
+            
+            // Reset active camera if this was it
+            if (m_ActiveCamera == entity) {
+                m_ActiveCamera = Entity(0, this);
+            }
+        }
+    }
+
+    void Scene::DestroyAllEntities() {
+        for (auto id : m_Entities) {
+            Entity entity(id, this);
+            DestroyEntity(entity);
+        }
+        m_Entities.clear();
     }
 
     std::vector<Entity> Scene::GetAllEntities() {
@@ -60,6 +83,11 @@ namespace Elyra {
         }
         EL_CORE_ERROR("Scene:Enitiy not Found");
         return Entity(0, this); // Invalid
+    }
+
+    Scene::~Scene() {
+        DestroyAllEntities();
+        EL_CORE_INFO("Scene destroyed and all entities cleaned up.");
     }
 
 } // namespace Elyra

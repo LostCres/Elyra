@@ -17,13 +17,13 @@ namespace Elyra {
     }
 
     Ref<Shader> ShaderLibrary::Load(const std::string& filepath) {
-        auto shader = Shader::Create(filepath);
+        auto shader = Shader::Create(filepath); // Use the file-based creation method
         Add(shader);
         return shader;
     }
 
     Ref<Shader> ShaderLibrary::Load(const std::string& name, const std::string& filepath) {
-        auto shader = Shader::Create(filepath);
+        auto shader = Shader::Create(filepath); // Use the file-based creation method
         Add(name, shader);
         return shader;
     }

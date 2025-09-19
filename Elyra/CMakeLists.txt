@@ -39,6 +39,7 @@ file(GLOB_RECURSE ELYRA_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Shader/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Material/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Texture/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Shadow/*.cpp
 )
 
 add_library(Elyra SHARED ${ELYRA_SRC})

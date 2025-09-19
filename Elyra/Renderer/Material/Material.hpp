@@ -11,6 +11,7 @@ namespace Elyra {
 class ELYRA_API Material {
 public:
     Material();
+    ~Material(); // Explicitly declare the destructor
     static Ref<Material> Create();
     static Ref<Material> Create(const Ref<Shader>& shader);
 
@@ -34,6 +35,7 @@ public:
     bool HasTexture(const std::string& name) const;
 
     void ApplyProperties() const;
+    void ClearProperties();
 
 private:
     Ref<Shader> m_Shader;

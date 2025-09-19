@@ -21,8 +21,12 @@ namespace Elyra {
         UIManager::Init(m_Window->GetNativeWindow());
     }
 
-    Application::~Application()
-    {
+    Application::~Application() {
+        while (!m_LayerStack.empty()) {
+            auto layer = m_LayerStack.back();
+            m_LayerStack.PopLayer(layer);
+        }
+        EL_CORE_INFO("Application layers cleaned up.");
         UIManager::Shutdown();
     }
 
@@ -86,5 +90,12 @@ namespace Elyra {
         m_LayerStack.PushOverlay(overlay);
     }
 
+    void Application::ReloadLayers() {
+        while (!m_LayerStack.empty()) {
+            auto layer = m_LayerStack.back();
+            m_LayerStack.PopLayer(layer);
+        }
+        EL_CORE_INFO("All layers reloaded.");
+    }
 
 }
