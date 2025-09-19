@@ -11,7 +11,7 @@ Elyra is a lightweight, modular game engine designed for learning and experiment
 - **Input System:** Keyboard and mouse input handling.
 - **Camera System:** Perspective and orthographic cameras with controller support.
 - **Scripting:** Bind custom scripts to entities for dynamic behavior.
-- **Cross-Platform:** Built with CMake for easy compilation on Windows and other platforms.
+- **Platform:** Built with CMake for easy compilation on Windows.
 
 ## Getting Started
 
