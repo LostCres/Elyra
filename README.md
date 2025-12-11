@@ -1,6 +1,6 @@
 # Elyra Engine
 
-Elyra is a lightweight, modular game engine designed for learning and experimentation. It provides a clean and extensible architecture for building 3D applications and games.
+Elyra is a lightweight, modular game engine designed for learning and experimentation, devoleped using AI.
 
 ## Features
 
