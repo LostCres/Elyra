@@ -2,8 +2,7 @@
 
 #include "Renderer/Shader/Shader.hpp"
 #include <glad/glad.h>
-#include <string>
-#include <unordered_map>
+#include <Elyrapch.hpp>
 
 namespace Elyra {
 

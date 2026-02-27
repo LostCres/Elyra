@@ -3,7 +3,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Core/Log.hpp"
 #include "OpenGLShader.hpp"
-#include <fstream>
+#include "Elyrapch.hpp"
 
 namespace Elyra {
 

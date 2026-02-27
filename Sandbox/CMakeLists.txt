@@ -4,7 +4,7 @@ add_executable(Sandbox
     SandboxLayer.cpp
     ECSDebugLayer.cpp
     ECSrender.cpp
-    ${CMAKE_SOURCE_DIR}/Elyra/EntryPoint.cpp
+    EntryPoint.cpp
 )
 
 # Link against the Elyra engine DLL
@@ -17,8 +17,7 @@ target_include_directories(Sandbox PRIVATE
     ${CMAKE_SOURCE_DIR}/vendor/glm/include    
 )
 
-# Platform
-target_compile_definitions(Sandbox PRIVATE ELYRA_PLATFORM_WINDOWS)
+# Platform — ELYRA_PLATFORM_WINDOWS is inherited from Elyra (PUBLIC define)
 
 # Copy required DLLs to the Sandbox output directory
 add_custom_command(TARGET Sandbox POST_BUILD

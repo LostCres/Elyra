@@ -39,7 +39,7 @@ file(GLOB_RECURSE ELYRA_SRC
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Shader/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Material/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Texture/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/Renderer/Shadow/*.cpp
+    # Renderer/Shadow/*.cpp  <- uncomment when shadow system is implemented
 )
 
 add_library(Elyra SHARED ${ELYRA_SRC})
@@ -70,5 +70,8 @@ target_link_libraries(Elyra
     opengl32
 )
 
-# Define only when building the DLL
+# Define only when building the DLL (PRIVATE)
 target_compile_definitions(Elyra PRIVATE ELYRA_BUILD_DLL)
+
+# Platform define — propagated to consumers (Sandbox) via PUBLIC
+target_compile_definitions(Elyra PUBLIC ELYRA_PLATFORM_WINDOWS)

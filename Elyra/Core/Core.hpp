@@ -1,5 +1,6 @@
 #pragma once
-#include "Elyrapch.hpp"
+#include <memory>   // std::unique_ptr, std::shared_ptr
+#include <utility>  // std::forward
 
 #define BIT(x) (1 << (x))
 

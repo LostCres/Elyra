@@ -1,6 +1,6 @@
 #ifdef ELYRA_PLATFORM_WINDOWS
 
-#include <Core/Application.hpp>
+#include "Core/Application.hpp"
 
 extern Elyra::Application* Elyra::CreateApplication();
 
