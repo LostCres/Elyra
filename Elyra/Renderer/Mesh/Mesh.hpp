@@ -13,6 +13,8 @@ namespace Elyra {
         ~Mesh();
 
         static Ref<Mesh> Create(const std::vector<float>& vertices, const std::vector<uint32_t>& indices);
+        // Load a mesh from an OBJ file. Returns nullptr on failure.
+        static Ref<Mesh> Load(const std::string& filepath);
         void Bind() const;
         void Unbind() const;
         const Ref<VertexArray>& GetVertexArray() const { return m_VertexArray; }

@@ -29,6 +29,7 @@
 
 #include "Renderer/Mesh/Mesh.hpp"
 #include "Renderer/Mesh/Primitives.hpp"
+#include "Renderer/Mesh/OBJLoader.hpp"
 
 #include "Renderer/Shader/Shader.hpp"
 #include "Renderer/Shader/ShaderLibrary.hpp"

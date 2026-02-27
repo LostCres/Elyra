@@ -65,6 +65,30 @@ void ECSrender::OnAttach() {
     plane.AddComponent<Elyra::MeshComponent>().MeshData = planeMesh;
     plane.AddComponent<Elyra::MaterialComponent>().MaterialData = material2;
 
+    // --- OBJ loader demo ---
+    // Try to load Assets/cube.obj; fall back to a procedural cube if the file is absent.
+    auto treeMesh = Elyra::Mesh::Load("Assets/obj/tree.obj");
+    auto leafMesh = Elyra::Mesh::Load("Assets/obj/leaf.obj");
+    if (!treeMesh||!leafMesh) {
+        EL_WARN("OBJ load failed — falling back to procedural cube.");
+        treeMesh = Elyra::Primitives::Cube();
+    }
+    auto treeMaterial = Elyra::Material::Create();
+    treeMaterial->Set("u_BaseColor", glm::vec3(0.5f, 0.3f, 0.1f)); // brown
+    auto leafMaterial = Elyra::Material::Create();
+    leafMaterial->Set("u_BaseColor", glm::vec3(0.2f, 0.9f, 0.3f)); // lime green
+
+    auto treeEntity = m_Scene->CreateEntity("Tree");
+    treeEntity.AddComponent<Elyra::MeshComponent>().MeshData       = treeMesh;
+    treeEntity.AddComponent<Elyra::MaterialComponent>().MaterialData = treeMaterial;
+    treeEntity.GetComponent<Elyra::TransformComponent>().Position    = { 2.5f, 0.5f, 0.0f };
+
+    auto leafEntity = m_Scene->CreateEntity("Leaf");
+    leafEntity.AddComponent<Elyra::MeshComponent>().MeshData       = leafMesh;
+    leafEntity.AddComponent<Elyra::MaterialComponent>().MaterialData = leafMaterial;
+    leafEntity.GetComponent<Elyra::TransformComponent>().Position    = { 2.5f, 0.5f, 0.0f };
+    // -----------------------
+
     for (auto& entity : m_Scene->GetAllEntities())
     {
         if (entity.HasComponent<Elyra::MaterialComponent>())

@@ -1,5 +1,6 @@
 #include "Elyrapch.hpp"
 #include "Renderer/Mesh/Mesh.hpp"
+#include "Renderer/Mesh/OBJLoader.hpp"
 
 namespace Elyra {
 
@@ -28,6 +29,11 @@ namespace Elyra {
 
         return mesh;
     }
+
+    Ref<Mesh> Mesh::Load(const std::string& filepath) {
+        return OBJLoader::Load(filepath);
+    }
+
     void Mesh::Bind() const {
         m_VertexArray->Bind();
     }
